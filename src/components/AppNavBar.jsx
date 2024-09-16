@@ -12,7 +12,7 @@ const AppNavBar = () => {
             component="div"
             sx={{ mr: "auto", fontFamily: "Poppins" }}
           >
-            My Products
+          Job Portal
           </Typography>
           <Stack direction="row" spacing={1}>
             <Link to="/">
@@ -24,13 +24,13 @@ const AppNavBar = () => {
                 Dashboard
               </Button>
             </Link>
-            <Link to="/login">
+            <Link to="/sign-in">
               <Button
                 variant="contained"
                 color="primary"
                 sx={{ borderRadius: "1.25rem" }}
               >
-                Login
+                Login / Signup
               </Button>
             </Link>
           </Stack>
