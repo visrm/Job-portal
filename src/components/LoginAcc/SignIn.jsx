@@ -1,4 +1,4 @@
-import * as React from "react";
+import { useState } from "react";
 import {
   Box,
   Button,
@@ -23,6 +23,7 @@ const Card = styled(MuiCard)(({ theme }) => ({
   flexDirection: "column",
   alignSelf: "center",
   width: "100%",
+  borderRadius: "0.75rem",
   padding: theme.spacing(4),
   gap: theme.spacing(2),
   margin: "auto",
@@ -39,7 +40,9 @@ const Card = styled(MuiCard)(({ theme }) => ({
 
 const SignInContainer = styled(Stack)(({ theme }) => ({
   padding: 18,
-  fontFamily: "Poppins",
+  backdropFilter: "blur(20px)",
+  backgroundColor: "whitesmoke",
+  fontFamily: "Poppins, sans-serif",
   marginTop: "10vh",
   "&::before": {
     content: '""',
@@ -58,11 +61,11 @@ const SignInContainer = styled(Stack)(({ theme }) => ({
 }));
 
 export default function SignIn(props) {
-  const [emailError, setEmailError] = React.useState(false);
-  const [emailErrorMessage, setEmailErrorMessage] = React.useState("");
-  const [passwordError, setPasswordError] = React.useState(false);
-  const [passwordErrorMessage, setPasswordErrorMessage] = React.useState("");
-  const [open, setOpen] = React.useState(false);
+  const [emailError, setEmailError] = useState(false);
+  const [emailErrorMessage, setEmailErrorMessage] = useState("");
+  const [passwordError, setPasswordError] = useState(false);
+  const [passwordErrorMessage, setPasswordErrorMessage] = useState("");
+  const [open, setOpen] = useState(false);
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -96,9 +99,9 @@ export default function SignIn(props) {
       setEmailErrorMessage("");
     }
 
-    if (!password.value || password.value.length < 6) {
+    if (!password.value || password.value.length < 8) {
       setPasswordError(true);
-      setPasswordErrorMessage("Password must be at least 6 characters long.");
+      setPasswordErrorMessage("Password must be at least 8 characters long.");
       isValid = false;
     } else {
       setPasswordError(false);
@@ -115,20 +118,32 @@ export default function SignIn(props) {
         <Card variant="outlined">
           <Typography
             component="h1"
-            variant="h5"
-            sx={{ width: "100%", fontSize: "clamp(2rem, 10vw, 2.15rem)" }}
+            variant="h4"
+            sx={{
+              width: "100%",
+              fontSize: "clamp(2rem, 10vw, 2.15rem)",
+              fontFamily: "Poppins, sans-serif",
+              fontWeight: 700,
+              fontKerning: "normal",
+              color: "transparent",
+              backgroundClip: "text",
+              backgroundImage:
+                  "linear-gradient(to right,blue 5%,#1976D2 45%, blue 80%)",
+              textAlign: "center",
+            }}
           >
             Sign in
           </Typography>
           <Box
             component="form"
+            id="signIn_form"
             onSubmit={handleSubmit}
             noValidate
             sx={{
               display: "flex",
               flexDirection: "column",
               width: "100%",
-              gap: 2,
+              gap: 1,
             }}
           >
             <FormControl>
@@ -139,7 +154,7 @@ export default function SignIn(props) {
                 id="email"
                 type="email"
                 name="email"
-                placeholder="your@email.com"
+                placeholder="yourname@email.com"
                 autoComplete="email"
                 autoFocus
                 required
@@ -152,15 +167,16 @@ export default function SignIn(props) {
             </FormControl>
             <FormControl>
               <Box sx={{ display: "flex", justifyContent: "space-between" }}>
-                <FormLabel htmlFor="password">Password</FormLabel>
-                <Link
-                  component="button"
+                <FormLabel htmlFor="password" sx={{ alignSelf: "baseline" }}>
+                  Password
+                </FormLabel>
+                <Button
                   onClick={handleClickOpen}
-                  variant="body2"
-                  sx={{ alignSelf: "baseline" }}
+                  variant="text"
+                  sx={{ alignSelf: "baseline", textTransform: "lowercase", borderRadius: "1.25rem", p: "0.2rem 0.25rem" }}
                 >
                   Forgot your password?
-                </Link>
+                </Button>
               </Box>
               <TextField
                 error={passwordError}
@@ -180,7 +196,12 @@ export default function SignIn(props) {
             </FormControl>
             <FormControlLabel
               control={
-                <Checkbox value="remember" color="primary" size="small" />
+                <Checkbox
+                  value="remember"
+                  id="remember"
+                  color="primary"
+                  size="small"
+                />
               }
               label="Remember me"
             />

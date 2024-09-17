@@ -1,4 +1,4 @@
-import * as React from "react";
+import { useState } from "react";
 import {
   Box,
   Button,
@@ -22,6 +22,7 @@ const Card = styled(MuiCard)(({ theme }) => ({
   flexDirection: "column",
   alignSelf: "center",
   width: "100%",
+  borderRadius: "0.75rem",
   padding: theme.spacing(4),
   gap: theme.spacing(2),
   margin: "auto",
@@ -39,7 +40,9 @@ const Card = styled(MuiCard)(({ theme }) => ({
 const SignUpContainer = styled(Stack)(({ theme }) => ({
   height: "100%",
   padding: 3,
-  fontFamily: "Poppins",
+  backdropFilter: "blur(20px)",
+  backgroundColor: "whitesmoke",
+  fontFamily: "Poppins, sans-serif",
   backgroundImage:
     "radial-gradient(ellipse at 50% 50%, hsl(210, 100%, 97%), hsl(0, 0%, 100%))",
   backgroundRepeat: "no-repeat",
@@ -50,12 +53,12 @@ const SignUpContainer = styled(Stack)(({ theme }) => ({
 }));
 
 export default function SignUp() {
-  const [emailError, setEmailError] = React.useState(false);
-  const [emailErrorMessage, setEmailErrorMessage] = React.useState("");
-  const [passwordError, setPasswordError] = React.useState(false);
-  const [passwordErrorMessage, setPasswordErrorMessage] = React.useState("");
-  const [nameError, setNameError] = React.useState(false);
-  const [nameErrorMessage, setNameErrorMessage] = React.useState("");
+  const [emailError, setEmailError] = useState(false);
+  const [emailErrorMessage, setEmailErrorMessage] = useState("");
+  const [passwordError, setPasswordError] = useState(false);
+  const [passwordErrorMessage, setPasswordErrorMessage] = useState("");
+  const [nameError, setNameError] = useState(false);
+  const [nameErrorMessage, setNameErrorMessage] = useState("");
 
   const validateInputs = () => {
     const email = document.getElementById("email");
@@ -73,9 +76,9 @@ export default function SignUp() {
       setEmailErrorMessage("");
     }
 
-    if (!password.value || password.value.length < 6) {
+    if (!password.value || password.value.length < 8) {
       setPasswordError(true);
-      setPasswordErrorMessage("Password must be at least 6 characters long.");
+      setPasswordErrorMessage("Password must be at least 8 characters long.");
       isValid = false;
     } else {
       setPasswordError(false);
@@ -119,25 +122,39 @@ export default function SignUp() {
           <Card variant="outlined">
             <Typography
               component="h1"
-              variant="h5"
-              sx={{ width: "100%", fontSize: "clamp(2rem, 10vw, 2.15rem)" }}
+              variant="h4"
+              sx={{
+                width: "100%",
+                fontSize: "clamp(2rem, 10vw, 2.15rem)",
+                fontFamily: "Poppins, sans-serif",
+                fontWeight: 700,
+                fontKerning: "normal",
+                color: "transparent",
+                backgroundClip: "text",
+                backgroundImage:
+                  "linear-gradient(to right,blue 5%,#1976D2 45%, blue 80%)",
+                textAlign: "center",
+              }}
             >
               Sign up
             </Typography>
             <Box
               component="form"
+              id="signUp_form"
               onSubmit={handleSubmit}
-              sx={{ display: "flex", flexDirection: "column", gap: 2 }}
+              sx={{ display: "flex", flexDirection: "column", gap: 1 }}
             >
               <FormControl>
-                <FormLabel htmlFor="name">Full name</FormLabel>
+                <FormLabel className="form-label" htmlFor="name">
+                  Full name
+                </FormLabel>
                 <TextField
                   autoComplete="name"
                   name="name"
                   required
                   fullWidth
                   id="name"
-                  placeholder="Jon Snow"
+                  placeholder="John Doe "
                   error={nameError}
                   helperText={nameErrorMessage}
                   color={nameError ? "error" : "primary"}
@@ -145,12 +162,14 @@ export default function SignUp() {
                 />
               </FormControl>
               <FormControl>
-                <FormLabel htmlFor="email">Email</FormLabel>
+                <FormLabel className="form-label" htmlFor="email">
+                  Email
+                </FormLabel>
                 <TextField
                   required
                   fullWidth
                   id="email"
-                  placeholder="your@email.com"
+                  placeholder="yourname@email.com"
                   name="email"
                   autoComplete="email"
                   variant="outlined"
@@ -161,7 +180,9 @@ export default function SignUp() {
                 />
               </FormControl>
               <FormControl>
-                <FormLabel htmlFor="password">Password</FormLabel>
+                <FormLabel className="form-label" htmlFor="password">
+                  Password
+                </FormLabel>
                 <TextField
                   required
                   fullWidth
@@ -178,7 +199,14 @@ export default function SignUp() {
                 />
               </FormControl>
               <FormControlLabel
-                control={<Checkbox value="allowExtraEmails" color="primary" size="small" />}
+                control={
+                  <Checkbox
+                    value="allowExtraEmails"
+                    id="allowExtraEmails"
+                    color="primary"
+                    size="small"
+                  />
+                }
                 label="I want to receive updates via email."
               />
               <Button
