@@ -1,0 +1,85 @@
+{
+  "hash": "32c05d44",
+  "configHash": "4ce3680b",
+  "lockfileHash": "e3b0c442",
+  "browserHash": "715cc27b",
+  "optimized": {
+    "@mui/material": {
+      "src": "../../node_modules/@mui/material/index.js",
+      "file": "@mui_material.js",
+      "fileHash": "13539842",
+      "needsInterop": false
+    },
+    "@mui/material/Card": {
+      "src": "../../node_modules/@mui/material/Card/index.js",
+      "file": "@mui_material_Card.js",
+      "fileHash": "d13b5d9a",
+      "needsInterop": false
+    },
+    "@mui/material/styles": {
+      "src": "../../node_modules/@mui/material/styles/index.js",
+      "file": "@mui_material_styles.js",
+      "fileHash": "77acc684",
+      "needsInterop": false
+    },
+    "@mui/material/SvgIcon": {
+      "src": "../../node_modules/@mui/material/SvgIcon/index.js",
+      "file": "@mui_material_SvgIcon.js",
+      "fileHash": "26ca5d73",
+      "needsInterop": false
+    },
+    "prop-types": {
+      "src": "../../node_modules/prop-types/index.js",
+      "file": "prop-types.js",
+      "fileHash": "4f12b15f",
+      "needsInterop": true
+    },
+    "react": {
+      "src": "../../node_modules/react/index.js",
+      "file": "react.js",
+      "fileHash": "70a4ee14",
+      "needsInterop": true
+    },
+    "react-dom/client": {
+      "src": "../../node_modules/react-dom/client.js",
+      "file": "react-dom_client.js",
+      "fileHash": "85f41fec",
+      "needsInterop": true
+    },
+    "react-router-dom": {
+      "src": "../../node_modules/react-router-dom/dist/index.js",
+      "file": "react-router-dom.js",
+      "fileHash": "0c471fd9",
+      "needsInterop": false
+    }
+  },
+  "chunks": {
+    "chunk-SZV4WZ32": {
+      "file": "chunk-SZV4WZ32.js"
+    },
+    "chunk-RJSNEH5L": {
+      "file": "chunk-RJSNEH5L.js"
+    },
+    "chunk-4EUQSHMX": {
+      "file": "chunk-4EUQSHMX.js"
+    },
+    "chunk-7JJHS6W4": {
+      "file": "chunk-7JJHS6W4.js"
+    },
+    "chunk-62EFVL5F": {
+      "file": "chunk-62EFVL5F.js"
+    },
+    "chunk-ZNVVQF6B": {
+      "file": "chunk-ZNVVQF6B.js"
+    },
+    "chunk-JMVEG3FK": {
+      "file": "chunk-JMVEG3FK.js"
+    },
+    "chunk-TWJRYSII": {
+      "file": "chunk-TWJRYSII.js"
+    },
+    "chunk-DC5AMYBS": {
+      "file": "chunk-DC5AMYBS.js"
+    }
+  }
+}
