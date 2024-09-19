@@ -9,8 +9,11 @@ import {
   FormLabel,
   FormControl,
   TextField,
+  Select,
+  MenuItem,
   Typography,
   Stack,
+  InputLabel,
 } from "@mui/material";
 import { Link } from "react-router-dom";
 import MuiCard from "@mui/material/Card";
@@ -38,7 +41,7 @@ const Card = styled(MuiCard)(({ theme }) => ({
   }),
 }));
 
-const SignInContainer = styled(Stack)(({ theme }) => ({
+const LogInContainer = styled(Stack)(({ theme }) => ({
   padding: 18,
   backdropFilter: "blur(20px)",
   backgroundColor: "whitesmoke",
@@ -60,12 +63,15 @@ const SignInContainer = styled(Stack)(({ theme }) => ({
   },
 }));
 
-export default function SignIn(props) {
+export default function LogIn(props) {
   const [emailError, setEmailError] = useState(false);
   const [emailErrorMessage, setEmailErrorMessage] = useState("");
   const [passwordError, setPasswordError] = useState(false);
   const [passwordErrorMessage, setPasswordErrorMessage] = useState("");
   const [open, setOpen] = useState(false);
+  const [role, setRole] = useState("user");
+
+  const handleChange = (event) => setRole(event.target.value);
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -81,6 +87,7 @@ export default function SignIn(props) {
     console.log({
       email: data.get("email"),
       password: data.get("password"),
+      role: data.get("role"),
     });
   };
 
@@ -114,7 +121,7 @@ export default function SignIn(props) {
   return (
     <>
       <CssBaseline enableColorScheme />
-      <SignInContainer direction="column" justifyContent="space-between">
+      <LogInContainer direction="column" justifyContent="space-between">
         <Card variant="outlined">
           <Typography
             component="h1"
@@ -128,15 +135,15 @@ export default function SignIn(props) {
               color: "transparent",
               backgroundClip: "text",
               backgroundImage:
-                  "linear-gradient(to right,blue 5%,#1976D2 45%, blue 80%)",
+                "linear-gradient(to right,blue 5%,#1976D2 45%, blue 80%)",
               textAlign: "center",
             }}
           >
-            Sign in
+            Log in
           </Typography>
           <Box
             component="form"
-            id="signIn_form"
+            id="LogIn_form"
             onSubmit={handleSubmit}
             noValidate
             sx={{
@@ -173,7 +180,12 @@ export default function SignIn(props) {
                 <Button
                   onClick={handleClickOpen}
                   variant="text"
-                  sx={{ alignSelf: "baseline", textTransform: "lowercase", borderRadius: "1.25rem", p: "0.2rem 0.25rem" }}
+                  sx={{
+                    alignSelf: "baseline",
+                    textTransform: "lowercase",
+                    borderRadius: "1.25rem",
+                    p: "0.2rem 0.25rem",
+                  }}
                 >
                   Forgot your password?
                 </Button>
@@ -194,6 +206,25 @@ export default function SignIn(props) {
                 size="small"
               />
             </FormControl>
+            <FormControl>
+            <FormLabel className="form-label" id="role-label">
+                  Role
+                </FormLabel>
+                <Select
+                  required
+                  value={role}
+                  onChange={handleChange}
+                  displayEmpty
+                  name="role"
+                  labelId="role-label"
+                  type="select"
+                  inputProps={{ "aria-label": "Without label" }}
+                  size="small"
+                >
+                  <MenuItem value="user">Job Seeker</MenuItem>
+                  <MenuItem value="admin">Recruiter</MenuItem>
+                </Select>
+              </FormControl>
             <FormControlLabel
               control={
                 <Checkbox
@@ -236,7 +267,7 @@ export default function SignIn(props) {
             </Button>
           </Box>
         </Card>
-      </SignInContainer>
+      </LogInContainer>
     </>
   );
 }

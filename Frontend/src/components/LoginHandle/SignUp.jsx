@@ -9,6 +9,8 @@ import {
   FormLabel,
   FormControl,
   TextField,
+  Select,
+  MenuItem,
   Typography,
   Stack,
 } from "@mui/material";
@@ -59,11 +61,15 @@ export default function SignUp() {
   const [passwordErrorMessage, setPasswordErrorMessage] = useState("");
   const [nameError, setNameError] = useState(false);
   const [nameErrorMessage, setNameErrorMessage] = useState("");
+  const [role, setRole] = useState("user");
+
+  const handleChange = (event) => setRole(event.target.value);
 
   const validateInputs = () => {
     const email = document.getElementById("email");
     const password = document.getElementById("password");
-    const name = document.getElementById("name");
+    const fullname = document.getElementById("fullname");
+    const role = document.getElementById("role");
 
     let isValid = true;
 
@@ -85,7 +91,7 @@ export default function SignUp() {
       setPasswordErrorMessage("");
     }
 
-    if (!name.value || name.value.length < 1) {
+    if (!fullname.value || fullname.value.length < 1) {
       setNameError(true);
       setNameErrorMessage("Name is required.");
       isValid = false;
@@ -101,10 +107,10 @@ export default function SignUp() {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
     console.log({
-      name: data.get("name"),
-      lastName: data.get("lastName"),
+      name: data.get("fullname"),
       email: data.get("email"),
       password: data.get("password"),
+      role: data.get("role"),
     });
   };
 
@@ -145,15 +151,15 @@ export default function SignUp() {
               sx={{ display: "flex", flexDirection: "column", gap: 1 }}
             >
               <FormControl>
-                <FormLabel className="form-label" htmlFor="name">
+                <FormLabel className="form-label" htmlFor="fullname">
                   Full name
                 </FormLabel>
                 <TextField
                   autoComplete="name"
-                  name="name"
+                  name="fullname"
                   required
                   fullWidth
-                  id="name"
+                  id="fullname"
                   placeholder="John Doe "
                   error={nameError}
                   helperText={nameErrorMessage}
@@ -198,17 +204,26 @@ export default function SignUp() {
                   size="small"
                 />
               </FormControl>
-              <FormControlLabel
-                control={
-                  <Checkbox
-                    value="allowExtraEmails"
-                    id="allowExtraEmails"
-                    color="primary"
-                    size="small"
-                  />
-                }
-                label="I want to receive updates via email."
-              />
+              <FormControl>
+              <FormLabel className="form-label" id="role-label">
+                  Role
+                </FormLabel>
+                <Select
+                  required
+                  value={role}
+                  onChange={handleChange}
+                  displayEmpty
+                  name="role"
+                  id="role"
+                  labelId="role-label"
+                  type="select"
+                  inputProps={{ "aria-label": "Without label" }}
+                  size="small"
+                >
+                  <MenuItem value="user">Job Seeker</MenuItem>
+                  <MenuItem value="admin">Recruiter</MenuItem>
+                </Select>
+              </FormControl>&nbsp;
               <Button
                 type="submit"
                 fullWidth
@@ -225,7 +240,7 @@ export default function SignUp() {
                     variant="body2"
                     sx={{ alignSelf: "center" }}
                   >
-                    Sign in
+                    Log in
                   </Link>
                 </span>
               </Typography>
