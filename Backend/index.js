@@ -24,7 +24,7 @@ const corsOptions = {
 app.use(cors(corsOptions));
 
 // api's
-app.use("/api/v0/user/", userRoute);
+app.use("/api/v0/user", userRoute);
 
 // dummy api
 // app.get("/hello", async (req, res) => {

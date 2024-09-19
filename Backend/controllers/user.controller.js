@@ -1,4 +1,4 @@
-import { User } from "../models/userModel.js";
+import User from "../models/userModel.js";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 
@@ -18,38 +18,22 @@ export const register = async (req, res) => {
     let user = await User.findOne({ email });
     if (user)
       res.status(400).json({
-        message: "Account with this emailID already exists.",
-        success: false,
-      });
-
-    // To check if the user account already exists with the given phone number.
-    user = await User.findOne({ phoneNo });
-    if (user)
-      res.status(400).json({
-        message: "Account with this Phone Number already exists.",
+        message: "Account with this email address already exists.",
         success: false,
       });
 
     const Hashedpassword = await bcrypt.hash(password, 8);
     await User.create({
       fullname,
+      phoneNo,
       email,
       password: Hashedpassword,
       role,
     });
 
-    const data = {
-      fullname: user.fullname,
-      phoneNo: user.phoneNo,
-      email: user.email,
-      role: user.role,
-      profile: user.profile,
-    };
-
     return res.status(200).json({
       message: "Account was successfully created.",
       success: true,
-      data,
     });
   } catch (err) {
     console.log(err);
@@ -86,7 +70,7 @@ export const logIn = async (req, res) => {
     const tokenData = {
       userID: user._id,
     };
-    const token = jwt.sign(tokenData, process.env.SECRET_KEY, {
+    const token = await jwt.sign(tokenData, process.env.SECRET_KEY, {
       expiresIn: "1d",
     });
 
@@ -107,6 +91,7 @@ export const logIn = async (req, res) => {
       })
       .json({
         message: `${user.fullname} successfully logged in.`,
+        user,
         success: true,
       });
   } catch (err) {
@@ -129,15 +114,10 @@ export const logOut = async (req, res) => {
 export const updateProfile = async (req, res) => {
   try {
     const { fullname, phoneNo, email, bio, skills } = req.body;
+    let skillsArray;
 
-    // To check if any required fields are missing
-    if (!fullname || !phoneNo || !email || !bio || !skills)
-      res.status(400).json({
-        message: "Some required field(s) is/are missing!",
-        success: false,
-      });
-
-    const skillsArray = skills.split(",");
+    if (skills) skillsArray = skills.split(",");
+    
     const userid = req.id;
     let user = await User.findById(userid);
 
@@ -147,11 +127,11 @@ export const updateProfile = async (req, res) => {
         success: false,
       });
     // Updating User data
-    user.fullname = fullname;
-    user.phoneNo = phoneNo;
-    user.email = email;
-    user.profile.bio = bio;
-    user.profile.skills = skillsArray;
+    if (fullname) user.fullname = fullname;
+    if (phoneNo) user.phoneNo = phoneNo;
+    if (email) user.email = email;
+    if (bio) user.profile.bio = bio;
+    if (skills) user.profile.skills = skillsArray;
 
     await user.save();
 
@@ -168,7 +148,6 @@ export const updateProfile = async (req, res) => {
       user,
       success: true,
     });
-
   } catch (error) {
     console.log(error);
   }

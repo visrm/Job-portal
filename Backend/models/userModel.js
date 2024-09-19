@@ -14,14 +14,13 @@ const userSchema = new mongoose.Schema(
     phoneNo: {
       type: Number,
       required: true,
-      unique: true,
     },
     password: {
       type: String,
       required: true,
     },
     profile: {
-      bio: { type: String },
+      bio: { type: String, default: "" },
       skills: { type: String },
       resume: { type: String }, // URL to resume file
       company: { type: mongoose.Schema.Types.ObjectId, ref: "Company" },
