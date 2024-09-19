@@ -59,6 +59,8 @@ export default function SignUp() {
   const [emailErrorMessage, setEmailErrorMessage] = useState("");
   const [passwordError, setPasswordError] = useState(false);
   const [passwordErrorMessage, setPasswordErrorMessage] = useState("");
+  const [phoneNoError, setphoneNoError] = useState(false);
+  const [phoneNoErrorMessage, setphoneNoErrorMessage] = useState("");
   const [nameError, setNameError] = useState(false);
   const [nameErrorMessage, setNameErrorMessage] = useState("");
   const [role, setRole] = useState("user");
@@ -69,7 +71,7 @@ export default function SignUp() {
     const email = document.getElementById("email");
     const password = document.getElementById("password");
     const fullname = document.getElementById("fullname");
-    const role = document.getElementById("role");
+    const phoneNo = document.getElementById("phoneNo");
 
     let isValid = true;
 
@@ -98,6 +100,15 @@ export default function SignUp() {
     } else {
       setNameError(false);
       setNameErrorMessage("");
+    }
+
+    if (!phoneNo.value || phoneNo.value.length < 1) {
+      setphoneNoError(true);
+      setphoneNoErrorMessage("Phone Number is required.");
+      isValid = false;
+    } else {
+      setphoneNoError(false);
+      setphoneNoErrorMessage("");
     }
 
     return isValid;
@@ -168,6 +179,24 @@ export default function SignUp() {
                 />
               </FormControl>
               <FormControl>
+                <FormLabel className="form-label" htmlFor="phoneNo">
+                  Phone Number
+                </FormLabel>
+                <TextField
+                  required
+                  fullWidth
+                  name="phoneNo"
+                  placeholder="+91"
+                  type="password"
+                  id="phoneNo"
+                  variant="outlined"
+                  error={phoneNoError}
+                  helperText={phoneNoErrorMessage}
+                  color={phoneNoError ? "error" : "primary"}
+                  size="small"
+                />
+              </FormControl>
+              <FormControl>
                 <FormLabel className="form-label" htmlFor="email">
                   Email
                 </FormLabel>
@@ -205,7 +234,7 @@ export default function SignUp() {
                 />
               </FormControl>
               <FormControl>
-              <FormLabel className="form-label" id="role-label">
+                <FormLabel className="form-label" id="role-label">
                   Role
                 </FormLabel>
                 <Select
@@ -223,7 +252,8 @@ export default function SignUp() {
                   <MenuItem value="user">Job Seeker</MenuItem>
                   <MenuItem value="admin">Recruiter</MenuItem>
                 </Select>
-              </FormControl>&nbsp;
+              </FormControl>
+              &nbsp;
               <Button
                 type="submit"
                 fullWidth
@@ -236,7 +266,7 @@ export default function SignUp() {
                 Already have an account?{" "}
                 <span>
                   <Link
-                    to="/sign-in"
+                    to="/login"
                     variant="body2"
                     sx={{ alignSelf: "center" }}
                   >

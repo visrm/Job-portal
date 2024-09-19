@@ -11,6 +11,11 @@ const userSchema = new mongoose.Schema(
       required: true,
       unique: true,
     },
+    phoneNo: {
+      type: Number,
+      required: true,
+      unique: true,
+    },
     password: {
       type: String,
       required: true,
@@ -18,7 +23,7 @@ const userSchema = new mongoose.Schema(
     profile: {
       bio: { type: String },
       skills: { type: String },
-      resume : { type: String}, // URL to resume file
+      resume: { type: String }, // URL to resume file
       company: { type: mongoose.Schema.Types.ObjectId, ref: "Company" },
       profileImg: { type: String, default: "" },
     },
@@ -29,7 +34,8 @@ const userSchema = new mongoose.Schema(
       required: true,
     },
   },
-  { timestamps: true });
+  { timestamps: true }
+);
 
 const User = mongoose.model("User", userSchema);
 export default User;

@@ -11,8 +11,8 @@ export default function App() {
       <AppNavBar />
       <Routes>
         <Route path="/" element={<HomePage />} />
-        <Route path="/sign-in" element={<LogIn />} />
-        <Route path="/sign-up" element={<SignUp />} />
+        <Route path="/login" element={<LogIn />} />
+        <Route path="/register" element={<SignUp />} />
       </Routes>
     </>
   );

@@ -7,6 +7,7 @@ import userModel from "./models/userModel.js";
 import compModel from "./models/companyModel.js";
 import jobModel from "./models/jobModel.js";
 import dotenv from "dotenv";
+import userRoute from "./routes/user.route.js";
 dotenv.config({});
 
 // initialise application
@@ -22,20 +23,13 @@ const corsOptions = {
 };
 app.use(cors(corsOptions));
 
-// dummy api
-app.get("/hello", async (req, res) => {
-  res.send({ message: "Hello World!" });
-});
+// api's
+app.use("/api/v0/user/", userRoute);
 
-//view api
-app.get("/view", async (req, res) => {
-  try {
-    var data = await userModel.find();
-    res.send(data);
-  } catch (err) {
-    console.log(err);
-  }
-});
+// dummy api
+// app.get("/hello", async (req, res) => {
+//   res.send({ message: "Hello World!" });
+// });
 
 app.get("/view", async (req, res) => {
     try {

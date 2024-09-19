@@ -36,7 +36,7 @@ const AppNavBar = () => {
                 Jobs
               </NavButton>
             </Link>
-            <Link to="/sign-in">
+            <Link to="/login">
               <NavButton variant="text" >
                 Login / Signup
               </NavButton>
