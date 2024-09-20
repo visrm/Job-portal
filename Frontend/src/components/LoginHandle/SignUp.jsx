@@ -4,7 +4,6 @@ import {
   Button,
   Checkbox,
   CssBaseline,
-  Divider,
   FormControlLabel,
   FormLabel,
   FormControl,
@@ -17,7 +16,6 @@ import {
 import { Link } from "react-router-dom";
 import MuiCard from "@mui/material/Card";
 import { styled } from "@mui/material/styles";
-import { GoogleIcon } from "../CustomIcons";
 
 const Card = styled(MuiCard)(({ theme }) => ({
   display: "flex",
@@ -274,20 +272,6 @@ export default function SignUp() {
                   </Link>
                 </span>
               </Typography>
-            </Box>
-            <Divider>
-              <Typography sx={{ color: "text.secondary" }}>or</Typography>
-            </Divider>
-            <Box sx={{ display: "flex", flexDirection: "column", gap: 2 }}>
-              <Button
-                type="submit"
-                fullWidth
-                variant="outlined"
-                onClick={() => alert("Sign up with Google")}
-                startIcon={<GoogleIcon />}
-              >
-                Sign up with Google
-              </Button>
             </Box>
           </Card>
         </Stack>
