@@ -4,7 +4,10 @@ import AppNavBar from "./Navigation/AppNavBar";
 const HomePage = () => {
   return (
     <>
-      <AppNavBar />
+      <header>
+        <AppNavBar />
+      </header>
+
       <h1 align="center"> Opening page</h1>
     </>
   );

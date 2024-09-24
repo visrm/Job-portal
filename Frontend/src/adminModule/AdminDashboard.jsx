@@ -4,7 +4,9 @@ import AdminNavigation from "../components/Navigation/AdminNavigation";
 const AdminDashboard = () => {
   return (
     <>
-      <AdminNavigation />
+      <header>
+        <AdminNavigation />
+      </header>
       admin homepage
     </>
   );

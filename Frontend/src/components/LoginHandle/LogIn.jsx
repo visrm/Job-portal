@@ -126,13 +126,14 @@ export default function LogIn(props) {
         {
           headers: {
             "Content-Type": "application/json",
-          },
+          }, 
           withCredentials: true,
         }
       );
       const isValidEntry = validateInputs();
       if (response.data.success && isValidEntry) {
-        navigate("/dashboard");
+        if (userData.role == "admin") navigate("/admin/dashboard");
+        else navigate("/dashboard");
       }
     } catch (err) {
       console.log(err);

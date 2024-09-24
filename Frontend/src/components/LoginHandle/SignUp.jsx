@@ -169,7 +169,7 @@ export default function SignUp() {
         <Stack
           sx={{
             justifyContent: "center",
-            height: "100dvh",
+            height: "90dvh",
             p: 1,
           }}
         >

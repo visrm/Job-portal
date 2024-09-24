@@ -41,7 +41,7 @@ const UserNavigation = () => {
                 fontWeight: "800",
               }}
             >
-              Dashboard
+              Job Portal
             </Typography>
             <Stack direction="row" spacing={0.5}>
               <Link to="/dashboard">

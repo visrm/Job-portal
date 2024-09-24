@@ -28,7 +28,7 @@ const NavButton = styled(Button)({
 const AppNavBar = () => {
   return (
     <>
-      <AppBar position="sticky"  sx={{ padding: "0 0.5rem" }}>
+      <AppBar position="sticky" sx={{ padding: "0 0.5rem" }}>
         <Toolbar>
           <Typography
             variant="h5"
