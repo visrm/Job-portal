@@ -1,23 +1,24 @@
 import { useState } from "react";
+import axios from "axios";
 import {
   Box,
   Button,
   Checkbox,
   CssBaseline,
   FormControlLabel,
-  FormLabel,
   FormControl,
   TextField,
-  Select,
-  MenuItem,
   Typography,
   Stack,
-  InputLabel,
+  RadioGroup,
+  Radio,
 } from "@mui/material";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import MuiCard from "@mui/material/Card";
 import { styled } from "@mui/material/styles";
 import ForgotPassword from "./ForgotPassword";
+import { USER_API_END_POINT } from "../../utils/constants";
+import AppNavBar from "../Navigation/AppNavBar";
 
 const Card = styled(MuiCard)(({ theme }) => ({
   display: "flex",
@@ -44,7 +45,7 @@ const LogInContainer = styled(Stack)(({ theme }) => ({
   backdropFilter: "blur(20px)",
   backgroundColor: "whitesmoke",
   fontFamily: "Poppins, sans-serif",
-  marginTop: "10vh",
+  marginTop: "7.5vh",
   "&::before": {
     content: '""',
     display: "block",
@@ -62,32 +63,21 @@ const LogInContainer = styled(Stack)(({ theme }) => ({
 }));
 
 export default function LogIn(props) {
-  const [emailError, setEmailError] = useState(false);
-  const [emailErrorMessage, setEmailErrorMessage] = useState("");
-  const [passwordError, setPasswordError] = useState(false);
-  const [passwordErrorMessage, setPasswordErrorMessage] = useState("");
+  const [emailError, setEmailError] = useState({ state: false, message: "" });
+  const [passwordError, setPasswordError] = useState({
+    state: false,
+    message: "",
+  });
   const [open, setOpen] = useState(false);
-  const [role, setRole] = useState("user");
+  const [inputData, setInputData] = useState({
+    email: "",
+    password: "",
+    role: "user",
+  });
+  const navigate = useNavigate();
 
-  const handleChange = (event) => setRole(event.target.value);
-
-  const handleClickOpen = () => {
-    setOpen(true);
-  };
-
-  const handleClose = () => {
-    setOpen(false);
-  };
-
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get("email"),
-      password: data.get("password"),
-      role: data.get("role"),
-    });
-  };
+  const handleChange = (event) =>
+    setInputData({ ...inputData, [event.target.name]: event.target.value });
 
   const validateInputs = () => {
     const email = document.getElementById("email");
@@ -96,28 +86,62 @@ export default function LogIn(props) {
     let isValid = true;
 
     if (!email.value || !/\S+@\S+\.\S+/.test(email.value)) {
-      setEmailError(true);
-      setEmailErrorMessage("Please enter a valid email address.");
+      setEmailError({
+        state: true,
+        message: "Please enter a valid email address.",
+      });
       isValid = false;
     } else {
-      setEmailError(false);
-      setEmailErrorMessage("");
+      setEmailError({ state: false, message: "" });
     }
 
     if (!password.value || password.value.length < 8) {
-      setPasswordError(true);
-      setPasswordErrorMessage("Password must be at least 8 characters long.");
+      setPasswordError({
+        state: true,
+        message: "Password must be at least 8 characters long.",
+      });
       isValid = false;
     } else {
-      setPasswordError(false);
-      setPasswordErrorMessage("");
+      setPasswordError({ state: false, message: "" });
     }
 
     return isValid;
   };
 
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    const formData = new FormData(event.currentTarget);
+    formData.append("email", inputData.email);
+    formData.append("password", inputData.password);
+    formData.append("role", inputData.role);
+    try {
+      const userData = {
+        email: formData.get("email"),
+        password: formData.get("password"),
+        role: formData.get("role"),
+      };
+      const response = await axios.post(
+        `${USER_API_END_POINT}/login`,
+        userData,
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+          withCredentials: true,
+        }
+      );
+      const isValidEntry = validateInputs();
+      if (response.data.success && isValidEntry) {
+        navigate("/dashboard");
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
   return (
     <>
+      <AppNavBar />
       <CssBaseline enableColorScheme />
       <LogInContainer direction="column" justifyContent="space-between">
         <Card variant="outlined">
@@ -139,44 +163,46 @@ export default function LogIn(props) {
           >
             Log in
           </Typography>
-          <Box
-            component="form"
+          <form
+            method="POST"
             id="LogIn_form"
             onSubmit={handleSubmit}
-            noValidate
-            sx={{
+            style={{
               display: "flex",
               flexDirection: "column",
               width: "100%",
-              gap: 1,
+              gap: "0.75rem",
             }}
           >
             <FormControl>
-              <FormLabel htmlFor="email">Email</FormLabel>
+              <label htmlFor="email">Email</label>
               <TextField
-                error={emailError}
-                helperText={emailErrorMessage}
+                error={emailError.state}
+                helperText={emailError.message}
                 id="email"
                 type="email"
                 name="email"
+                value={inputData.email}
+                onChange={handleChange}
                 placeholder="yourname@email.com"
-                autoComplete="email"
                 autoFocus
                 required
                 fullWidth
                 variant="outlined"
-                color={emailError ? "error" : "primary"}
+                color={emailError.state ? "error" : "primary"}
                 sx={{ ariaLabel: "email" }}
                 size="small"
               />
             </FormControl>
             <FormControl>
               <Box sx={{ display: "flex", justifyContent: "space-between" }}>
-                <FormLabel htmlFor="password" sx={{ alignSelf: "baseline" }}>
+                <label htmlFor="password" sx={{ alignSelf: "baseline" }}>
                   Password
-                </FormLabel>
+                </label>
                 <Button
-                  onClick={handleClickOpen}
+                  onClick={() => {
+                    setOpen(true);
+                  }}
                   variant="text"
                   sx={{
                     alignSelf: "baseline",
@@ -189,9 +215,11 @@ export default function LogIn(props) {
                 </Button>
               </Box>
               <TextField
-                error={passwordError}
-                helperText={passwordErrorMessage}
+                error={passwordError.state}
+                helperText={passwordError.message}
                 name="password"
+                value={inputData.password}
+                onChange={handleChange}
                 placeholder="********"
                 type="password"
                 id="password"
@@ -200,29 +228,35 @@ export default function LogIn(props) {
                 required
                 fullWidth
                 variant="outlined"
-                color={passwordError ? "error" : "primary"}
+                color={passwordError.state ? "error" : "primary"}
                 size="small"
               />
             </FormControl>
             <FormControl>
-            <FormLabel className="form-label" id="role-label">
-                  Role
-                </FormLabel>
-                <Select
-                  required
-                  value={role}
-                  onChange={handleChange}
-                  displayEmpty
-                  name="role"
-                  labelId="role-label"
-                  type="select"
-                  inputProps={{ "aria-label": "Without label" }}
-                  size="small"
-                >
-                  <MenuItem value="user">Job Seeker</MenuItem>
-                  <MenuItem value="admin">Recruiter</MenuItem>
-                </Select>
-              </FormControl>
+              <label htmlFor="Role" className="form-label">
+                Role
+              </label>
+              <RadioGroup
+                row
+                required
+                defaultValue="user"
+                onChange={handleChange}
+                name="role"
+                value={inputData.role}
+                id="Role"
+              >
+                <FormControlLabel
+                  value="user"
+                  control={<Radio checked={inputData.role === "user"} />}
+                  label="Job Seeker"
+                />
+                <FormControlLabel
+                  value="admin"
+                  control={<Radio checked={inputData.role === "admin"} />}
+                  label="Recruiter"
+                />
+              </RadioGroup>
+            </FormControl>
             <FormControlLabel
               control={
                 <Checkbox
@@ -234,7 +268,12 @@ export default function LogIn(props) {
               }
               label="Remember me"
             />
-            <ForgotPassword open={open} handleClose={handleClose} />
+            <ForgotPassword
+              open={open}
+              handleClose={() => {
+                setOpen(false);
+              }}
+            />
             <Button
               type="submit"
               fullWidth
@@ -251,7 +290,7 @@ export default function LogIn(props) {
                 </Link>
               </span>
             </Typography>
-          </Box>
+          </form>
         </Card>
       </LogInContainer>
     </>

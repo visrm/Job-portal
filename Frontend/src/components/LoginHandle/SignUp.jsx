@@ -1,21 +1,22 @@
 import { useState } from "react";
+import axios from "axios";
 import {
-  Box,
   Button,
-  Checkbox,
   CssBaseline,
-  FormControlLabel,
-  FormLabel,
   FormControl,
   TextField,
-  Select,
-  MenuItem,
   Typography,
   Stack,
+  Box,
+  RadioGroup,
+  FormControlLabel,
+  Radio,
 } from "@mui/material";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import MuiCard from "@mui/material/Card";
 import { styled } from "@mui/material/styles";
+import { USER_API_END_POINT } from "../../utils/constants.js";
+import AppNavBar from "../Navigation/AppNavBar.jsx";
 
 const Card = styled(MuiCard)(({ theme }) => ({
   display: "flex",
@@ -53,17 +54,28 @@ const SignUpContainer = styled(Stack)(({ theme }) => ({
 }));
 
 export default function SignUp() {
-  const [emailError, setEmailError] = useState(false);
-  const [emailErrorMessage, setEmailErrorMessage] = useState("");
-  const [passwordError, setPasswordError] = useState(false);
-  const [passwordErrorMessage, setPasswordErrorMessage] = useState("");
-  const [phoneNoError, setphoneNoError] = useState(false);
-  const [phoneNoErrorMessage, setphoneNoErrorMessage] = useState("");
-  const [nameError, setNameError] = useState(false);
-  const [nameErrorMessage, setNameErrorMessage] = useState("");
-  const [role, setRole] = useState("user");
+  const [emailError, setEmailError] = useState({ state: false, message: "" });
+  const [passwordError, setPasswordError] = useState({
+    state: false,
+    message: "",
+  });
+  const [phoneNoError, setPhoneNoError] = useState({
+    state: false,
+    message: "",
+  });
+  const [nameError, setNameError] = useState({ state: false, message: "" });
+  const [inputData, setInputData] = useState({
+    fullname: "",
+    phoneNo: "",
+    email: "",
+    password: "",
+    role: "user",
+  });
 
-  const handleChange = (event) => setRole(event.target.value);
+  const navigate = useNavigate();
+  const handleChange = (event) => {
+    setInputData({ ...inputData, [event.target.name]: event.target.value });
+  };
 
   const validateInputs = () => {
     const email = document.getElementById("email");
@@ -74,57 +86,84 @@ export default function SignUp() {
     let isValid = true;
 
     if (!email.value || !/\S+@\S+\.\S+/.test(email.value)) {
-      setEmailError(true);
-      setEmailErrorMessage("Please enter a valid email address.");
+      setEmailError({
+        state: true,
+        message: "Please enter a valid email address.",
+      });
       isValid = false;
     } else {
-      setEmailError(false);
-      setEmailErrorMessage("");
+      setEmailError({ state: false, message: "" });
     }
 
     if (!password.value || password.value.length < 8) {
-      setPasswordError(true);
-      setPasswordErrorMessage("Password must be at least 8 characters long.");
+      setPasswordError({
+        state: true,
+        message: "Password must be at least 8 characters long.",
+      });
       isValid = false;
     } else {
-      setPasswordError(false);
-      setPasswordErrorMessage("");
+      setPasswordError({ state: false, message: "" });
     }
 
     if (!fullname.value || fullname.value.length < 1) {
-      setNameError(true);
-      setNameErrorMessage("Name is required.");
+      setNameError({ state: true, message: "Name is required." });
       isValid = false;
     } else {
-      setNameError(false);
-      setNameErrorMessage("");
+      setNameError({ state: false, message: "" });
     }
 
-    if (!phoneNo.value || phoneNo.value.length < 1) {
-      setphoneNoError(true);
-      setphoneNoErrorMessage("Phone Number is required.");
+    let isNotValidNumber = isNaN(phoneNo.value);
+    if (!phoneNo.value || isNotValidNumber || phoneNo.value.length < 10) {
+      setPhoneNoError({
+        state: true,
+        message: "Valid Phone Number is required.",
+      });
       isValid = false;
     } else {
-      setphoneNoError(false);
-      setphoneNoErrorMessage("");
+      setPhoneNoError({ state: false, message: "" });
     }
 
     return isValid;
   };
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    console.log({
-      name: data.get("fullname"),
-      email: data.get("email"),
-      password: data.get("password"),
-      role: data.get("role"),
-    });
+    const formData = new FormData(event.currentTarget);
+    formData.append("fullname", inputData.fullname);
+    formData.append("phoneNo", inputData.phoneNo);
+    formData.append("email", inputData.email);
+    formData.append("password", inputData.password);
+    formData.append("role", inputData.role);
+    try {
+      const userData = {
+        fullname: formData.get("fullname"),
+        phoneNo: formData.get("phoneNo"),
+        email: formData.get("email"),
+        password: formData.get("password"),
+        role: formData.get("role"),
+      };
+      const response = await axios.post(
+        `${USER_API_END_POINT}/register`,
+        userData,
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+          withCredentials: true,
+        }
+      );
+      const isValidEntry = validateInputs();
+      if (response.data.success && isValidEntry) {
+        navigate("/login");
+      }
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   return (
     <>
+      <AppNavBar />
       <CssBaseline enableColorScheme />
       <SignUpContainer direction="column" justifyContent="space-between">
         <Stack
@@ -153,125 +192,117 @@ export default function SignUp() {
             >
               Sign up
             </Typography>
-            <Box
-              component="form"
-              id="signUp_form"
-              onSubmit={handleSubmit}
-              sx={{ display: "flex", flexDirection: "column", gap: 1 }}
-            >
-              <FormControl>
-                <FormLabel className="form-label" htmlFor="fullname">
-                  Full name
-                </FormLabel>
-                <TextField
-                  autoComplete="name"
-                  name="fullname"
-                  required
-                  fullWidth
-                  id="fullname"
-                  placeholder="John Doe "
-                  error={nameError}
-                  helperText={nameErrorMessage}
-                  color={nameError ? "error" : "primary"}
-                  size="small"
-                />
-              </FormControl>
-              <FormControl>
-                <FormLabel className="form-label" htmlFor="phoneNo">
-                  Phone Number
-                </FormLabel>
-                <TextField
-                  required
-                  fullWidth
-                  name="phoneNo"
-                  placeholder="+91"
-                  type="password"
-                  id="phoneNo"
-                  variant="outlined"
-                  error={phoneNoError}
-                  helperText={phoneNoErrorMessage}
-                  color={phoneNoError ? "error" : "primary"}
-                  size="small"
-                />
-              </FormControl>
-              <FormControl>
-                <FormLabel className="form-label" htmlFor="email">
-                  Email
-                </FormLabel>
-                <TextField
-                  required
-                  fullWidth
-                  id="email"
-                  placeholder="yourname@email.com"
-                  name="email"
-                  autoComplete="email"
-                  variant="outlined"
-                  error={emailError}
-                  helperText={emailErrorMessage}
-                  color={passwordError ? "error" : "primary"}
-                  size="small"
-                />
-              </FormControl>
-              <FormControl>
-                <FormLabel className="form-label" htmlFor="password">
-                  Password
-                </FormLabel>
-                <TextField
-                  required
-                  fullWidth
-                  name="password"
-                  placeholder="********"
-                  type="password"
-                  id="password"
-                  autoComplete="new-password"
-                  variant="outlined"
-                  error={passwordError}
-                  helperText={passwordErrorMessage}
-                  color={passwordError ? "error" : "primary"}
-                  size="small"
-                />
-              </FormControl>
-              <FormControl>
-                <FormLabel className="form-label" id="role-label">
-                  Role
-                </FormLabel>
-                <Select
-                  required
-                  value={role}
-                  onChange={handleChange}
-                  displayEmpty
-                  name="role"
-                  id="role"
-                  labelId="role-label"
-                  type="select"
-                  inputProps={{ "aria-label": "Without label" }}
-                  size="small"
-                >
-                  <MenuItem value="user">Job Seeker</MenuItem>
-                  <MenuItem value="admin">Recruiter</MenuItem>
-                </Select>
-              </FormControl>
-              &nbsp;
-              <Button
-                type="submit"
-                fullWidth
-                variant="contained"
-                onClick={validateInputs}
+            <Box component="div">
+              <form
+                method="POST"
+                id="signUp_form"
+                onSubmit={handleSubmit}
+                style={{
+                  display: "flex",
+                  flexDirection: "column",
+                  width: "100%",
+                  gap: "0.75rem",
+                }}
               >
-                Sign up
-              </Button>
-              <Typography sx={{ textAlign: "center" }}>
-                Already have an account?{" "}
-                <span>
-                  <Link
-                    to="/login"
-                    variant="body2"
-                    sx={{ alignSelf: "center" }}
-                  >
-                    Log in
-                  </Link>
-                </span>
-              </Typography>
+                <FormControl>
+                  <label className="form-label" htmlFor="fullname">
+                    Full name
+                  </label>
+                  <TextField
+                    name="fullname"
+                    value={inputData.fullname}
+                    required
+                    fullWidth
+                    id="fullname"
+                    placeholder="John Doe "
+                    onChange={handleChange}
+                    error={nameError.state}
+                    helperText={nameError.message}
+                    color={nameError.state ? "error" : "primary"}
+                    size="small"
+                  />
+                </FormControl>
+                <FormControl>
+                  <label className="form-label" htmlFor="phoneNo">
+                    Phone Number
+                  </label>
+                  <TextField
+                    required
+                    fullWidth
+                    name="phoneNo"
+                    value={inputData.phoneNo}
+                    placeholder="+91"
+                    type="text"
+                    id="phoneNo"
+                    variant="outlined"
+                    onChange={handleChange}
+                    error={phoneNoError.state}
+                    helperText={phoneNoError.message}
+                    color={phoneNoError.state ? "error" : "primary"}
+                    size="small"
+                  />
+                </FormControl>
+                <FormControl>
+                  <label className="form-label" htmlFor="email">
+                    Email
+                  </label>
+                  <TextField
+                    required
+                    fullWidth
+                    id="email"
+                    placeholder="yourname@email.com"
+                    name="email"
+                    value={inputData.email}
+                    variant="outlined"
+                    onChange={handleChange}
+                    error={emailError.state}
+                    helperText={emailError.message}
+                    color={emailError.state ? "error" : "primary"}
+                    size="small"
+                  />
+                </FormControl>
+                <FormControl>
+                  <label className="form-label" htmlFor="password">
+                    Password
+                  </label>
+                  <TextField
+                    required
+                    fullWidth
+                    name="password"
+                    value={inputData.password}
+                    placeholder="********"
+                    type="password"
+                    id="password"
+                    autoComplete="current-password"
+                    variant="outlined"
+                    onChange={handleChange}
+                    error={passwordError.state}
+                    helperText={passwordError.message}
+                    color={passwordError.state ? "error" : "primary"}
+                    size="small"
+                  />
+                </FormControl>
+                <Button
+                  type="submit"
+                  fullWidth
+                  variant="contained"
+                  onClick={validateInputs}
+                >
+                  Sign up
+                </Button>
+                <Typography sx={{ textAlign: "center" }}>
+                  Already have an account?{" "}
+                  <span>
+                    <Link
+                      to="/login"
+                      variant="body2"
+                      sx={{ alignSelf: "center" }}
+                    >
+                      Log in
+                    </Link>
+                  </span>
+                </Typography>
+              </form>
             </Box>
           </Card>
         </Stack>

@@ -5,12 +5,12 @@ import jwt from "jsonwebtoken";
 export const register = async (req, res) => {
   try {
     // To deconstruct the object from request body
-    const { fullname, phoneNo, email, password, role } = req.body;
+    const { fullname, phoneNo, email, password, role } = await req.body;
 
     // To check if any required fields are missing
     if (!fullname || !phoneNo || !email || !password || !role)
       res.status(400).json({
-        message: "Some required field(s) is/are missing!",
+        message: "Some field(s) are missing!",
         success: false,
       });
 
@@ -22,7 +22,7 @@ export const register = async (req, res) => {
         success: false,
       });
 
-    const Hashedpassword = await bcrypt.hash(password, 8);
+    const Hashedpassword = await bcrypt.hash( password, 10);
     await User.create({
       fullname,
       phoneNo,
@@ -48,7 +48,7 @@ export const logIn = async (req, res) => {
     // To check if any required fields are missing
     if (!email || !password || !role)
       res.status(400).json({
-        message: "Some required field(s) is/are missing!",
+        message: "Some required field(s) are missing!",
         success: false,
       });
 
@@ -85,7 +85,7 @@ export const logIn = async (req, res) => {
     return res
       .status(200)
       .cookie("token", token, {
-        maxAge: 24 * 3600 * 1000,
+        maxAge: 1 * 24 * 60 * 60 * 1000,
         httpsOnly: true,
         sameSite: "strict",
       })
@@ -113,26 +113,28 @@ export const logOut = async (req, res) => {
 
 export const updateProfile = async (req, res) => {
   try {
+    // To deconstruct the object from request body
     const { fullname, phoneNo, email, bio, skills } = req.body;
     let skillsArray;
-
+    // To split skills into array elements (based on separator: ",").
     if (skills) skillsArray = skills.split(",");
-    
+    // `userid` stores the `id` of object from request body.
     const userid = req.id;
     let user = await User.findById(userid);
-
+    // To check if the user account exists.
     if (!user)
       res.status(400).json({
         message: "User doesn't exist",
         success: false,
       });
+
     // Updating User data
     if (fullname) user.fullname = fullname;
     if (phoneNo) user.phoneNo = phoneNo;
     if (email) user.email = email;
     if (bio) user.profile.bio = bio;
     if (skills) user.profile.skills = skillsArray;
-
+    // To saved the updated data of user.
     await user.save();
 
     user = {
@@ -143,7 +145,7 @@ export const updateProfile = async (req, res) => {
       skills: user.profile.skills,
     };
 
-    return res.status(400).json({
+    return res.status(200).json({
       message: "User Updated.",
       user,
       success: true,
