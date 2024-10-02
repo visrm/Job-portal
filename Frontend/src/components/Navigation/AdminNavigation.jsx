@@ -28,7 +28,7 @@ const NavButton = styled(Button)({
 const AdminNavigation = () => {
   return (
     <>
-      <AppBar position="sticky"  sx={{ padding: "0 0.5rem" }}>
+      <AppBar position="sticky" sx={{ padding: "0 0.5rem" }}>
         <Toolbar>
           <Typography
             variant="h5"
@@ -49,7 +49,9 @@ const AdminNavigation = () => {
             <Link to="/admin/manage-jobs">
               <NavButton variant="text">Manage Jobs</NavButton>
             </Link>
-            <NavButton variant="text">LogOut</NavButton>
+            <Link to="/">
+              <NavButton variant="text">LogOut</NavButton>
+            </Link>
           </Stack>
         </Toolbar>
       </AppBar>

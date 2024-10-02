@@ -127,20 +127,14 @@ export default function SignUp() {
   };
 
   const handleSubmit = async (event) => {
-    event.preventDefault();
-    const formData = new FormData(event.currentTarget);
-    formData.append("fullname", inputData.fullname);
-    formData.append("phoneNo", inputData.phoneNo);
-    formData.append("email", inputData.email);
-    formData.append("password", inputData.password);
-    formData.append("role", inputData.role);
     try {
-      const userData = {
-        fullname: formData.get("fullname"),
-        phoneNo: formData.get("phoneNo"),
-        email: formData.get("email"),
-        password: formData.get("password"),
-        role: formData.get("role"),
+      event.preventDefault();
+      let userData = {
+        fullname: inputData.fullname,
+        phoneNo: inputData.phoneNo,
+        email: inputData.email,
+        password: inputData.password,
+        role: inputData.role,
       };
       const response = await axios.post(
         `${USER_API_END_POINT}/register`,
@@ -153,8 +147,9 @@ export default function SignUp() {
         }
       );
       const isValidEntry = validateInputs();
-      if (response.data.success && isValidEntry) {
+      while (response.data.success && isValidEntry) {
         navigate("/login");
+        break;
       }
     } catch (err) {
       console.log(err);

@@ -7,8 +7,17 @@ const HomePage = () => {
       <header>
         <AppNavBar />
       </header>
-
-      <h1 align="center"> Opening page</h1>
+      <main id="home-main">
+        <hgroup>
+          <h1 id="home-title" align="center">
+            For every hardwork,<span> help to get better opportunity</span>
+          </h1>
+          <h3 id="home-subtitle" align="right">
+            <div id="hgroup-bg"></div>
+            Job hunting made easy.
+          </h3>
+        </hgroup>
+      </main>
     </>
   );
 };

@@ -1,9 +1,7 @@
 import { useState } from "react";
 import axios from "axios";
 import {
-  Box,
   Button,
-  Checkbox,
   CssBaseline,
   FormControlLabel,
   FormControl,
@@ -16,7 +14,6 @@ import {
 import { Link, useNavigate } from "react-router-dom";
 import MuiCard from "@mui/material/Card";
 import { styled } from "@mui/material/styles";
-import ForgotPassword from "./ForgotPassword";
 import { USER_API_END_POINT } from "../../utils/constants";
 import AppNavBar from "../Navigation/AppNavBar";
 
@@ -41,11 +38,12 @@ const Card = styled(MuiCard)(({ theme }) => ({
 }));
 
 const LogInContainer = styled(Stack)(({ theme }) => ({
-  padding: 18,
+  height: "100%",
+  padding: "1rem",
   backdropFilter: "blur(20px)",
   backgroundColor: "whitesmoke",
+  minHeight: "90vh",
   fontFamily: "Poppins, sans-serif",
-  marginTop: "7.5vh",
   "&::before": {
     content: '""',
     display: "block",
@@ -68,7 +66,6 @@ export default function LogIn(props) {
     state: false,
     message: "",
   });
-  const [open, setOpen] = useState(false);
   const [inputData, setInputData] = useState({
     email: "",
     password: "",
@@ -109,24 +106,20 @@ export default function LogIn(props) {
   };
 
   const handleSubmit = async (event) => {
-    event.preventDefault();
-    const formData = new FormData(event.currentTarget);
-    formData.append("email", inputData.email);
-    formData.append("password", inputData.password);
-    formData.append("role", inputData.role);
     try {
-      const userData = {
-        email: formData.get("email"),
-        password: formData.get("password"),
-        role: formData.get("role"),
+      event.preventDefault();
+      const loginData = {
+        email: inputData.email,
+        password: inputData.password,
+        role: inputData.role,
       };
       const response = await axios.post(
         `${USER_API_END_POINT}/login`,
-        userData,
+        loginData,
         {
           headers: {
             "Content-Type": "application/json",
-          }, 
+          },
           withCredentials: true,
         }
       );
@@ -145,7 +138,7 @@ export default function LogIn(props) {
       <AppNavBar />
       <CssBaseline enableColorScheme />
       <LogInContainer direction="column" justifyContent="space-between">
-        <Card variant="outlined">
+        <Card variant="outlined" sx={{ backgroundColor: "transparent" }}>
           <Typography
             component="h1"
             variant="h4"
@@ -196,25 +189,7 @@ export default function LogIn(props) {
               />
             </FormControl>
             <FormControl>
-              <Box sx={{ display: "flex", justifyContent: "space-between" }}>
-                <label htmlFor="password" sx={{ alignSelf: "baseline" }}>
-                  Password
-                </label>
-                <Button
-                  onClick={() => {
-                    setOpen(true);
-                  }}
-                  variant="text"
-                  sx={{
-                    alignSelf: "baseline",
-                    textTransform: "lowercase",
-                    borderRadius: "1.25rem",
-                    p: "0.2rem 0.25rem",
-                  }}
-                >
-                  Forgot your password?
-                </Button>
-              </Box>
+              <label htmlFor="password">Password</label>
               <TextField
                 error={passwordError.state}
                 helperText={passwordError.message}
@@ -258,23 +233,6 @@ export default function LogIn(props) {
                 />
               </RadioGroup>
             </FormControl>
-            <FormControlLabel
-              control={
-                <Checkbox
-                  value="remember"
-                  id="remember"
-                  color="primary"
-                  size="small"
-                />
-              }
-              label="Remember me"
-            />
-            <ForgotPassword
-              open={open}
-              handleClose={() => {
-                setOpen(false);
-              }}
-            />
             <Button
               type="submit"
               fullWidth

@@ -1,5 +1,4 @@
 import React from "react";
-import UserNavigation from "../components/Navigation/UserNavigation";
 import JobCard from "../components/JobCard";
 import { Box, Grid2, Typography } from "@mui/material";
 
@@ -7,10 +6,6 @@ const BrowseJobs = () => {
   var cardSize = 4;
   return (
     <>
-      <header>
-        <UserNavigation />
-      </header>
-
       <main style={{ display: "flex", flexDirection: "row" }}>
         <Box
           component="div"
@@ -18,11 +13,12 @@ const BrowseJobs = () => {
             flexGrow: 1,
             height: "100%",
             padding: "0.75rem",
-            margin: "1.25rem 0 1.25rem 1.25rem",
-            border: "1px solid black",
+            margin: "0 0 0 1rem",
             borderRadius: "0.5rem",
-            minWidth: "33ch",
-            minHeight: "80dvh"
+            minWidth: "30ch",
+            minHeight: "80dvh",
+            backgroundColor: "rgba(255,255,255,0.85)",
+            backdropFilter: "blur(8px)"
           }}
         >
           <Typography variant="h5">Job filters</Typography>
@@ -34,7 +30,7 @@ const BrowseJobs = () => {
             flexGrow: 1,
             height: "100%",
             padding: "1rem",
-            mt: "0.25rem",
+            margin: "0 1em 0 0",
           }}
         >
           <Grid2 container spacing={2}>

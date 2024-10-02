@@ -1,7 +1,29 @@
 #root {
+  background-color: #ecf5ff;
   max-width: 100%;
+  min-height: 100vh;
   width: 100%;
   margin: 0;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+header {
+  position: sticky;
+  top: 0;
+  left: 0;
+  z-index: 1000;
+}
+
+main {
+  height: 100%;
+  width: 100%;
+  min-height: 100vh;
+  background-color: #ecf5ff;
 }
 
 img {
@@ -16,12 +38,143 @@ span {
   margin: 0 0.75rem;
 }
 
-/* Utilities */
-.profile-details:nth-child(1) {
-  font-weight: 500;
-  margin: 0 0.5rem 0 0.25rem;
+hgroup {
+  margin: 0.25rem auto;
+  padding-block: 1rem;
+  border-radius: 1.25rem;
+  width: 80%;
 }
 
+/* Utilities */
+
+/* Homepage Title CSS */
+#home-main {
+  background-image: url("./assets/bg-home.png");
+  background-repeat: no-repeat;
+  background-position: center;
+  position: fixed;
+}
+
+#home-title {
+  margin: 2rem auto 0 auto;
+  padding: 1rem;
+  font-family:
+    system-ui,
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    Roboto,
+    Oxygen,
+    Ubuntu,
+    Cantarell,
+    "Open Sans",
+    "Helvetica Neue",
+    sans-serif;
+  font-weight: 500;
+}
+
+#home-subtitle {
+  position: relative;
+  margin: 0 14em 0 auto;
+  padding: 0;
+  font-weight: 600;
+  font-style: italic;
+}
+
+#home-title > span {
+  display: block;
+  padding: 0.25rem 0.25rem 0 0.25rem;
+  font-family: Impact, Haettenschweiler, "Arial Narrow Bold", sans-serif;
+  font-weight: 600;
+  font-size: 4rem;
+  color: transparent;
+  background-clip: text;
+  background-image: linear-gradient(to right, blue, red, purple);
+}
+
+#hgroup-bg {
+  position: absolute;
+  bottom: -100%;
+  right: 5rem;
+  height: 140px;
+  width: 540px;
+  border-radius: 2.5rem;
+  filter: blur(20px);
+  background-color: rgba(255, 255, 255, 0.5);
+  z-index: -10;
+}
+
+/* Profile Section CSS */
+#profile-section-card {
+  display: flex;
+  flex-direction: column;
+  -ms-flex-direction: column;
+  padding: 0 1rem 1.5rem 1rem;
+  margin: 0.25rem auto;
+  background-color: rgba(0, 0, 0, 0.075);
+  backdrop-filter: blur(8px);
+  width: 70%;
+  transform: translateY(2rem);
+  animation: all 270ms ease-in-out;
+  border-radius: 1rem;
+}
+
+#profile-content {
+  margin: 0 auto;
+  max-width: 100%;
+  min-height: 80%;
+  display: flex;
+  flex-direction: "row";
+  flex-wrap: nowrap;
+  gap: 0.5rem;
+  min-height: 35vh;
+  justify-content: space-evenly;
+  align-items: center;
+}
+
+.profile-details {
+  font-weight: 600;
+  margin-block: 0.5rem;
+}
+
+#bio {
+  border: 1px solid lightgrey;
+  margin: 1rem 0;
+  padding: 1rem 0.75rem;
+  height: 50px;
+  min-width: fit-content;
+  max-width: 100%;
+  min-height: fit-content;
+  border-radius: 0.5rem;
+  background-color: #ffffffab;
+}
+
+.skills-array {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+
+/* Responsive Profile Card CSS */
+@media (max-width: 41rem) {
+  #profile-section-card {
+    padding: 0.75rem 1rem;
+    margin: 0.25rem auto;
+    width: 75%;
+  }
+  #profile-content {
+    display: flex;
+    flex-direction: column;
+  }
+
+  #profile-content > figure {
+    max-width: 160px;
+    min-height: auto;
+    margin: 0 auto;
+  }
+}
+
+/* Job Card CSS */
 .jobcard-footer {
   display: flex;
   flex: 1 0;

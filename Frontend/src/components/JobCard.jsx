@@ -1,4 +1,3 @@
-import * as React from "react";
 import {
   Box,
   Button,
@@ -7,17 +6,18 @@ import {
   CardContent,
   Typography,
 } from "@mui/material";
-
-const bull = (
-  <Box
-    component="span"
-    sx={{ display: "inline-block", mx: "2px", transform: "scale(0.8)" }}
-  >
-    •
-  </Box>
-);
+import { useState } from "react";
 
 export default function JobCard() {
+  const [salary, setSalary] = useState({
+    upperlimit: 8000,
+    lowerlimit: 3000,
+  });
+  const [jobtype, setJobtype] = useState("fulltime");
+  const [jobtitle, setJobtitle] = useState("Jr. Software developer");
+  const [location, setLocation] = useState("Kozhikode, Kerala");
+  const [timestamp, setTimestap] = useState("1Day ago");
+
   return (
     <Card
       sx={{
@@ -47,11 +47,11 @@ export default function JobCard() {
             gutterBottom
             sx={{ color: "text.secondary", fontSize: 14 }}
           >
-            Salary
+            {"₹" + salary.lowerlimit + " - " + "₹" + salary.upperlimit}
           </Typography>
-          <Typography variant="subtitle2">Job Type</Typography>
+          <Typography variant="subtitle2">{jobtype}</Typography>
         </div>
-        <Typography variant="h5">Job Title</Typography>
+        <Typography variant="h5">{jobtitle}</Typography>
 
         <div
           className="jobcard-footer"
@@ -62,8 +62,8 @@ export default function JobCard() {
             justifyContent: "space-between",
           }}
         >
-          <Typography variant="subtitle2">Location</Typography>
-          <Typography variant="subtitle2">Post Time</Typography>
+          <Typography variant="subtitle2">{location}</Typography>
+          <Typography variant="subtitle2">{timestamp}</Typography>
         </div>
       </CardContent>
       <CardActions>
