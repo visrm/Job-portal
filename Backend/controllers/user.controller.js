@@ -22,7 +22,7 @@ export const register = async (req, res) => {
         success: false,
       });
 
-    const Hashedpassword = await bcrypt.hash( password, 10);
+    const Hashedpassword = await bcrypt.hash(password, 10);
     await User.create({
       fullname,
       phoneNo,
@@ -104,7 +104,7 @@ export const logOut = async (req, res) => {
     // To forget the token stored in cookie
     return res.status(200).cookie("token", "", { maxAge: 0 }).json({
       message: "Logged out successfully.",
-      success: true,
+      success: true, 
     });
   } catch (err) {
     console.log(err);

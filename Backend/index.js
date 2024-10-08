@@ -4,7 +4,6 @@ import cookieParser from "cookie-parser";
 import cors from "cors";
 import connectDB from "./utils/connectdb.js";
 import userModel from "./models/userModel.js";
-import compModel from "./models/companyModel.js";
 import jobModel from "./models/jobModel.js";
 import dotenv from "dotenv";
 import userRoute from "./routes/user.route.js";
