@@ -7,6 +7,7 @@ import userModel from "./models/userModel.js";
 import jobModel from "./models/jobModel.js";
 import dotenv from "dotenv";
 import userRoute from "./routes/user.route.js";
+import jobsRoute from "./routes/jobs.route.js";
 dotenv.config({});
 
 // initialise application
@@ -24,20 +25,12 @@ app.use(cors(corsOptions));
 
 // api's
 app.use("/api/v0/user", userRoute);
+app.use("api/v0/jobs", jobsRoute);
 
 // dummy api
 // app.get("/hello", async (req, res) => {
 //   res.send({ message: "Hello World!" });
 // });
-
-app.get("/view", async (req, res) => {
-    try {
-      var data = await userModel.find();
-      res.send(data);
-    } catch (err) {
-      console.log(err);
-    }
-  });
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
