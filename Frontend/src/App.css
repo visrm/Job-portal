@@ -139,12 +139,13 @@ hgroup {
 
 #bio {
   border: 1px solid lightgrey;
-  margin: 1rem 0;
+  margin: 1rem auto;
   padding: 1rem 0.75rem;
   height: 50px;
   min-width: fit-content;
   max-width: 100%;
   min-height: fit-content;
+  white-space: wrap;
   border-radius: 0.5rem;
   background-color: #ffffffab;
 }
@@ -172,6 +173,13 @@ hgroup {
     min-height: auto;
     margin: 0 auto;
   }
+}
+
+.auth-form-field {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  gap: 0.25rem;
 }
 
 /* Job Card CSS */

@@ -2,10 +2,6 @@ import { useState } from "react";
 
 const Profile = () => {
   const [userDetails, setUserDetails] = useState({
-    name: "John Doe",
-    phoneNumber: "+91 9087450923",
-    email: "johndoe@email.com",
-    bio: "lorem ipsum",
     skills: ["HTML/CSS", "JavaScript", "Python"],
   });
 
@@ -52,20 +48,25 @@ const Profile = () => {
             >
               <div id="fullname">
                 <h4 className="profile-details">Full Name</h4>
-                <span>{userDetails.name}</span>
+                <span>John Doe</span>
               </div>
 
               <div id="phoneNo">
                 <h4 className="profile-details">Phone Number</h4>
-                <span>{userDetails.phoneNumber}</span>
+                <span>+91 9087450923</span>
               </div>
 
               <div id="email">
                 <h4 className="profile-details">E-mail Address</h4>
-                <span>{userDetails.email}</span>
+                <span>johndoe@email.com</span>
               </div>
 
-              <div id="bio">{userDetails.bio}</div>
+              <div id="bio">
+                Lorem ipsum dolor sit amet consectetur adipisicing elit. Nisi
+                corrupti cumque exercitationem magni, tempora dolores illum
+                quidem delectus! Officiis hic praesentium sapiente beatae
+                dolorem unde placeat assumenda explicabo nisi voluptates.
+              </div>
 
               <div id="skills">
                 <h4 className="profile-details">Skill Set</h4>{" "}
