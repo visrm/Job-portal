@@ -67,8 +67,9 @@ export const logIn = async (req, res) => {
         message: "Account doesn't exist with the entered role.",
         success: false
       });
+      
     const tokenData = {
-      userID: user._id
+      userId: user._id
     };
     const token = await jwt.sign(tokenData, process.env.SECRET_KEY, {
       expiresIn: "1d"

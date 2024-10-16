@@ -26,8 +26,8 @@ app.use(cors(corsOptions));
 // api's
 app.use("/api/v0/user", userRoute);
 app.use("/api/v0/company", companyRoute)
-app.use("api/v0/jobs", jobsRoute);
-app.use("api/v0/application", applicationRoute);
+app.use("/api/v0/jobs", jobsRoute);
+app.use("/api/v0/application", applicationRoute);
 
 // dummy api
 // app.get("/hello", async (req, res) => {
