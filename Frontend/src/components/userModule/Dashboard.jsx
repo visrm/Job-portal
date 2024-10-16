@@ -1,8 +1,7 @@
 import UserNav from "./UserNav";
 import Profile from "./Profile";
 
-const Dashboard = (currElm) => {
-  const { id, fullname, email, phoneNo } = currElm;
+const Dashboard = () => {
   return (
     <>
       <header>

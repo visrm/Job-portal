@@ -1,7 +1,6 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useParams } from "react-router-dom";
 import { USER_API_END_POINT } from "../../utils/constants";
-import { useAppContext } from "../../context/userContext";
 import EditIcon from "@mui/icons-material/Edit";
 import { Button } from "@mui/material";
 
@@ -14,18 +13,6 @@ const Profile = () => {
     email: "JohnDoe01@email.com",
     phoneNo: "+91 9008009008"
   });
-  const { getUserProfile, isProfileFetching, userProfile } = useAppContext();
-  const { id } = useParams();
-
-  const { fullname, email, phoneNo } = userProfile;
-
-  useEffect(() => {
-    getUserProfile(`${API}/${id}`);
-  }, []);
-
-  if (isProfileFetching) {
-    return <p>Loading...</p>;
-  }
 
   return (
     <>
