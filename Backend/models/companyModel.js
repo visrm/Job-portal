@@ -4,6 +4,7 @@ const companySchema = new mongoose.Schema(
   {
     name: {
       type: String,
+      unique: true,
       required: true,
     },
     description: {
@@ -14,7 +15,7 @@ const companySchema = new mongoose.Schema(
     email: {
       type: String,
     },
-    companyOwner: {
+    handler: { // The ID that handles the company account
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",
       required: true,

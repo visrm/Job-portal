@@ -199,7 +199,7 @@ export default function SignUp() {
                   gap: "0.75rem",
                 }}
               >
-                <FormControl>
+                <FormControl className="auth-form-field">
                   <label className="form-label" htmlFor="fullname">
                     Full name
                   </label>
@@ -217,7 +217,7 @@ export default function SignUp() {
                     size="small"
                   />
                 </FormControl>
-                <FormControl>
+                <FormControl className="auth-form-field">
                   <label className="form-label" htmlFor="phoneNo">
                     Phone Number
                   </label>
@@ -237,7 +237,7 @@ export default function SignUp() {
                     size="small"
                   />
                 </FormControl>
-                <FormControl>
+                <FormControl className="auth-form-field">
                   <label className="form-label" htmlFor="email">
                     Email
                   </label>
@@ -256,7 +256,7 @@ export default function SignUp() {
                     size="small"
                   />
                 </FormControl>
-                <FormControl>
+                <FormControl className="auth-form-field">
                   <label className="form-label" htmlFor="password">
                     Password
                   </label>

@@ -1,5 +1,5 @@
 import React from "react";
-import AdminNavigation from "../components/Navigation/AdminNavigation";
+import AdminNavigation from "../Navigation/AdminNavigation";
 
 const ManageJobs = () => {
   return (

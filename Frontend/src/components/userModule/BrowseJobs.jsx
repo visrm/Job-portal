@@ -1,11 +1,15 @@
 import React from "react";
-import JobCard from "../components/JobCard";
+import JobCard from "../JobCard";
 import { Box, Grid2, Typography } from "@mui/material";
+import UserNav from "./UserNav";
 
 const BrowseJobs = () => {
   var cardSize = 4;
   return (
     <>
+     <header>
+            <UserNav/>
+        </header>
       <main style={{ display: "flex", flexDirection: "row" }}>
         <Box
           component="div"

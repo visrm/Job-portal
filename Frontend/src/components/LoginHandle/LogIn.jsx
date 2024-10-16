@@ -9,12 +9,12 @@ import {
   Typography,
   Stack,
   RadioGroup,
-  Radio,
+  Radio
 } from "@mui/material";
 import { Link, useNavigate } from "react-router-dom";
 import MuiCard from "@mui/material/Card";
 import { styled } from "@mui/material/styles";
-import { USER_API_END_POINT } from "../../utils/constants";
+import { USER_API_END_POINT } from "../../utils/constants.js";
 import AppNavBar from "../Navigation/AppNavBar";
 
 const Card = styled(MuiCard)(({ theme }) => ({
@@ -27,14 +27,14 @@ const Card = styled(MuiCard)(({ theme }) => ({
   gap: theme.spacing(2),
   margin: "auto",
   [theme.breakpoints.up("sm")]: {
-    maxWidth: "450px",
+    maxWidth: "450px"
   },
   boxShadow:
     "hsla(220, 30%, 5%, 0.05) 0px 5px 15px 0px, hsla(220, 25%, 10%, 0.05) 0px 15px 35px -5px",
   ...theme.applyStyles("dark", {
     boxShadow:
-      "hsla(220, 30%, 5%, 0.5) 0px 5px 15px 0px, hsla(220, 25%, 10%, 0.08) 0px 15px 35px -5px",
-  }),
+      "hsla(220, 30%, 5%, 0.5) 0px 5px 15px 0px, hsla(220, 25%, 10%, 0.08) 0px 15px 35px -5px"
+  })
 }));
 
 const LogInContainer = styled(Stack)(({ theme }) => ({
@@ -55,22 +55,23 @@ const LogInContainer = styled(Stack)(({ theme }) => ({
     backgroundRepeat: "no-repeat",
     ...theme.applyStyles("dark", {
       backgroundImage:
-        "radial-gradient(at 50% 50%, hsla(210, 100%, 16%, 0.5), hsl(220, 30%, 5%))",
-    }),
-  },
+        "radial-gradient(at 50% 50%, hsla(210, 100%, 16%, 0.5), hsl(220, 30%, 5%))"
+    })
+  }
 }));
 
-export default function LogIn(props) {
+const LogIn = () => {
   const [emailError, setEmailError] = useState({ state: false, message: "" });
   const [passwordError, setPasswordError] = useState({
     state: false,
-    message: "",
+    message: ""
   });
   const [inputData, setInputData] = useState({
     email: "",
     password: "",
-    role: "user",
+    role: "user"
   });
+
   const navigate = useNavigate();
 
   const handleChange = (event) =>
@@ -85,7 +86,7 @@ export default function LogIn(props) {
     if (!email.value || !/\S+@\S+\.\S+/.test(email.value)) {
       setEmailError({
         state: true,
-        message: "Please enter a valid email address.",
+        message: "Please enter a valid email address."
       });
       isValid = false;
     } else {
@@ -95,7 +96,7 @@ export default function LogIn(props) {
     if (!password.value || password.value.length < 8) {
       setPasswordError({
         state: true,
-        message: "Password must be at least 8 characters long.",
+        message: "Password must be at least 8 characters long."
       });
       isValid = false;
     } else {
@@ -111,22 +112,25 @@ export default function LogIn(props) {
       const loginData = {
         email: inputData.email,
         password: inputData.password,
-        role: inputData.role,
+        role: inputData.role
       };
       const response = await axios.post(
         `${USER_API_END_POINT}/login`,
         loginData,
         {
           headers: {
-            "Content-Type": "application/json",
+            "Content-Type": "application/json"
           },
-          withCredentials: true,
+          withCredentials: true
         }
       );
       const isValidEntry = validateInputs();
       if (response.data.success && isValidEntry) {
-        if (userData.role == "admin") navigate("/admin/dashboard");
-        else navigate("/dashboard");
+        if (loginData.role == "admin") {
+          navigate("/admin/dashboard");
+        } else {
+          navigate("/dashboard");
+        }
       }
     } catch (err) {
       console.log(err);
@@ -152,7 +156,7 @@ export default function LogIn(props) {
               backgroundClip: "text",
               backgroundImage:
                 "linear-gradient(to right,blue 5%,#1976D2 45%, blue 80%)",
-              textAlign: "center",
+              textAlign: "center"
             }}
           >
             Log in
@@ -165,10 +169,10 @@ export default function LogIn(props) {
               display: "flex",
               flexDirection: "column",
               width: "100%",
-              gap: "0.75rem",
+              gap: "0.75rem"
             }}
           >
-            <FormControl>
+            <FormControl className="auth-form-field">
               <label htmlFor="email">Email</label>
               <TextField
                 error={emailError.state}
@@ -188,7 +192,7 @@ export default function LogIn(props) {
                 size="small"
               />
             </FormControl>
-            <FormControl>
+            <FormControl className="auth-form-field">
               <label htmlFor="password">Password</label>
               <TextField
                 error={passwordError.state}
@@ -254,4 +258,6 @@ export default function LogIn(props) {
       </LogInContainer>
     </>
   );
-}
+};
+
+export default LogIn;

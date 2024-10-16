@@ -18,8 +18,9 @@ header {
   left: 0;
   z-index: 1000;
 }
-
+ 
 main {
+  display: block;
   height: 100%;
   width: 100%;
   min-height: 100vh;
@@ -109,13 +110,13 @@ hgroup {
   display: flex;
   flex-direction: column;
   -ms-flex-direction: column;
-  padding: 0 1rem 1.5rem 1rem;
+  padding: 0 1.25rem 1.5rem 1.25rem;
   margin: 0.25rem auto;
   background-color: rgba(0, 0, 0, 0.075);
+  -webkit-backdrop-filter: blur(8px);
   backdrop-filter: blur(8px);
-  width: 70%;
+  width: 75%;
   transform: translateY(2rem);
-  animation: all 270ms ease-in-out;
   border-radius: 1rem;
 }
 
@@ -140,7 +141,7 @@ hgroup {
 #bio {
   border: 1px solid lightgrey;
   margin: 1rem auto;
-  padding: 1rem 0.75rem;
+  padding: 1rem;
   height: 50px;
   min-width: fit-content;
   max-width: 100%;
@@ -148,6 +149,7 @@ hgroup {
   white-space: wrap;
   border-radius: 0.5rem;
   background-color: #ffffffab;
+  color: rgba(0, 0, 0, 0.75);
 }
 
 .skills-array {

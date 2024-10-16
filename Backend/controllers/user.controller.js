@@ -11,7 +11,7 @@ export const register = async (req, res) => {
     if (!fullname || !phoneNo || !email || !password || !role)
       res.status(400).json({
         message: "Some field(s) are missing!",
-        success: false,
+        success: false
       });
 
     // To check if the user account already exists with the given email address.
@@ -19,7 +19,7 @@ export const register = async (req, res) => {
     if (user)
       res.status(400).json({
         message: "Account with this email address already exists.",
-        success: false,
+        success: false
       });
 
     const Hashedpassword = await bcrypt.hash(password, 10);
@@ -28,12 +28,12 @@ export const register = async (req, res) => {
       phoneNo,
       email,
       password: Hashedpassword,
-      role,
+      role
     });
 
     return res.status(200).json({
       message: "Account was successfully created.",
-      success: true,
+      success: true
     });
   } catch (err) {
     console.log(err);
@@ -49,7 +49,7 @@ export const logIn = async (req, res) => {
     if (!email || !password || !role)
       res.status(400).json({
         message: "Some required field(s) are missing!",
-        success: false,
+        success: false
       });
 
     // To check if valid email and password was entered.
@@ -58,20 +58,20 @@ export const logIn = async (req, res) => {
     if (!user || !isPasswordMatching)
       res.status(400).json({
         message: "Incorrect email or password.",
-        success: false,
+        success: false
       });
 
     // To check if valid role was entered.
     if (role != user.role)
       res.status(400).json({
         message: "Account doesn't exist with the entered role.",
-        success: false,
+        success: false
       });
     const tokenData = {
-      userID: user._id,
+      userID: user._id
     };
     const token = await jwt.sign(tokenData, process.env.SECRET_KEY, {
-      expiresIn: "1d",
+      expiresIn: "1d"
     });
 
     user = {
@@ -79,7 +79,7 @@ export const logIn = async (req, res) => {
       fullname: user.fullname,
       email: user.email,
       role: user.role,
-      profile: user.profile,
+      profile: user.profile
     };
 
     return res
@@ -87,12 +87,12 @@ export const logIn = async (req, res) => {
       .cookie("token", token, {
         maxAge: 1 * 24 * 60 * 60 * 1000,
         httpsOnly: true,
-        sameSite: "strict",
+        sameSite: "strict"
       })
       .json({
         message: `${user.fullname} successfully logged in.`,
         user,
-        success: true,
+        success: true
       });
   } catch (err) {
     console.log(err);
@@ -104,7 +104,7 @@ export const logOut = async (req, res) => {
     // To forget the token stored in cookie
     return res.status(200).cookie("token", "", { maxAge: 0 }).json({
       message: "Logged out successfully.",
-      success: true, 
+      success: true
     });
   } catch (err) {
     console.log(err);
@@ -125,7 +125,7 @@ export const updateProfile = async (req, res) => {
     if (!user)
       res.status(400).json({
         message: "User doesn't exist",
-        success: false,
+        success: false
       });
 
     // Updating User data
@@ -142,15 +142,50 @@ export const updateProfile = async (req, res) => {
       phoneNo: user.phoneNo,
       email: user.email,
       bio: user.profile.bio,
-      skills: user.profile.skills,
+      skills: user.profile.skills
     };
 
     return res.status(200).json({
       message: "User Updated.",
       user,
-      success: true,
+      success: true
     });
   } catch (error) {
     console.log(error);
+  }
+};
+
+export const getUsers = async (req, res) => {
+  try {
+    const users = await User.find();
+    if (!users)
+      res.status(404).json({ message: "Users doesn't exist.", success: false });
+
+    // To fetch user data based on id query parameter.
+    const userId = req.query.id;
+
+    if (userId){
+      const userByIdQuery = await User.findById(userId);
+      return res.status(200).json(userByIdQuery);
+    } 
+
+    return res.status(200).json(users);
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ message: "Error fetching users" });
+  }
+};
+
+export const getUserById = async (req, res) => {
+  try {
+    const userId = req.params.id;
+    const user = await User.findById(userId);
+    if (!user)
+      res.status(404).json({ message: "User doesn't exist.", success: false });
+
+    return res.status(200).json(user);
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ message: "Internal server error.", success: false });
   }
 };
