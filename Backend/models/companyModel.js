@@ -13,8 +13,6 @@ const companySchema = new mongoose.Schema(
     logo: { type: String },
     email: {
       type: String,
-      required: true,
-      unique: true,
     },
     companyOwner: {
       type: mongoose.Schema.Types.ObjectId,
