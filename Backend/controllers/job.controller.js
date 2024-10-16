@@ -2,10 +2,10 @@ import Job from "../models/jobModel.js";
 
 export const postJob = async (req, res) => {
     try {
-        const { title, description, requirements, jobType, location, salary, company, recruiter } = req.body;
+        const { title, description, requirements, jobType, location, salary, vacancy, companyId} = req.body;
         const userID = req.id;
 
-        if (!title || !description || !requirements || !jobType || !location || !salary || !company || !recruiter)
+        if (!title || !description || !requirements || !jobType || !location || !salary || !vacancy || !companyId)
             res.status(400).json({
                 message: "Some field(s) are empty.",
                 success: false
@@ -24,7 +24,8 @@ export const postJob = async (req, res) => {
             jobType,
             location,
             salary: Number(salary),
-            company,
+            vacancy,
+            companyId,
             recruiter: userID,
         });
 

@@ -9,14 +9,10 @@ const jobSchema = new mongoose.Schema(
       type: String,
       enum: ["Part-time", "Full-time", "Internship"],
       default: "Full-time",
-      required: true,
     },
     location: { type: String },
-    Salary: { type: Number, required: true },
-    vacancy: {
-      availableSeat: { type: Number },
-      totalSeat: { type: Number, required: true },
-    },
+    salary: { type: Number },
+    vacancy: { type: String },
     company: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Company",
