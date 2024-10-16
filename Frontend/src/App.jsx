@@ -21,7 +21,7 @@ export default function App() {
 
         {/* User Module */}
         <Route path="/dashboard" element={<Dashboard />} />
-        <Route path="/profile/:id" element={<Profile />} />
+        <Route path="/profile" element={<Profile />} />
         <Route
           path="/dashboard/profile/:id"
           element={<Navigate to="/profile/:id" />}
