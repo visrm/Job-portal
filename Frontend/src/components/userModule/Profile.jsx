@@ -1,5 +1,5 @@
-import { useState } from "react";
-import { useParams } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 import { USER_API_END_POINT } from "../../utils/constants";
 import EditIcon from "@mui/icons-material/Edit";
 import { Button } from "@mui/material";
@@ -11,13 +11,31 @@ const Profile = () => {
   const [userProfileDetails, setUserProfileDetails] = useState({
     fullname: "John Doe",
     email: "JohnDoe01@email.com",
-    phoneNo: "+91 9008009008"
+    phoneNo: 9000000090,
+    bio: "about me..."
   });
+
+  const { user } = useSelector((store) => store.auth);
+
+  useEffect(() => {
+    setUserProfileDetails({
+      fullname: user?.fullname,
+      email: user?.email,
+      phoneNo: user?.phoneNo,
+      bio: user?.profile.bio
+    });
+  }, []);
 
   return (
     <>
       <section id="profile-section-card">
-        <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between"}}>
+        <div
+          style={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "space-between"
+          }}
+        >
           <h2
             style={{
               fontFamily: "serif",
@@ -69,23 +87,20 @@ const Profile = () => {
           >
             <div id="fullname">
               <h4 className="profile-details">Full Name</h4>
-              {isProfileFetching && <span>{fullname}</span>}
               {<span>{userProfileDetails.fullname}</span>}
             </div>
 
             <div id="phoneNo">
               <h4 className="profile-details">Phone Number</h4>
-              {isProfileFetching && <span>{phoneNo}</span>}
               {<span>{userProfileDetails.phoneNo}</span>}
             </div>
 
             <div id="email">
               <h4 className="profile-details">E-mail Address</h4>
-              {isProfileFetching && <span>{email}</span>}
               {<span>{userProfileDetails.email}</span>}
             </div>
 
-            <div id="bio">about me...</div>
+            <div id="bio">{<span>{userProfileDetails.bio}</span>}</div>
 
             <div id="skills">
               <h4 className="profile-details">Skill Set</h4>

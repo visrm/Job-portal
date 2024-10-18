@@ -16,6 +16,9 @@ import MuiCard from "@mui/material/Card";
 import { styled } from "@mui/material/styles";
 import { USER_API_END_POINT } from "../../utils/constants.js";
 import AppNavBar from "../Navigation/AppNavBar";
+// redux feature imports
+import { useDispatch, useSelector } from "react-redux";
+import { setLoading, setUser } from "../../redux/slices/userAuthSlice.js";
 
 const Card = styled(MuiCard)(({ theme }) => ({
   display: "flex",
@@ -72,6 +75,10 @@ const LogIn = () => {
     role: "user"
   });
 
+  // react-redux features
+  const { loading, user } = useSelector(store => store.auth);
+  const dispatch = useDispatch();
+
   const navigate = useNavigate();
 
   const handleChange = (event) =>
@@ -109,6 +116,7 @@ const LogIn = () => {
   const handleSubmit = async (event) => {
     try {
       event.preventDefault();
+      dispatch(setLoading(true));
       const loginData = {
         email: inputData.email,
         password: inputData.password,
@@ -126,6 +134,7 @@ const LogIn = () => {
       );
       const isValidEntry = validateInputs();
       if (response.data.success && isValidEntry) {
+        dispatch(setUser(response.data.user));
         if (loginData.role == "admin") {
           navigate("/admin/dashboard");
         } else {
@@ -134,6 +143,8 @@ const LogIn = () => {
       }
     } catch (err) {
       console.log(err);
+    } finally {
+      dispatch(setLoading(false));
     }
   };
 

@@ -7,16 +7,16 @@ import {
   TextField,
   Typography,
   Stack,
-  Box,
-  RadioGroup,
-  FormControlLabel,
-  Radio,
+  Box
 } from "@mui/material";
 import { Link, useNavigate } from "react-router-dom";
 import MuiCard from "@mui/material/Card";
 import { styled } from "@mui/material/styles";
 import { USER_API_END_POINT } from "../../utils/constants.js";
 import AppNavBar from "../Navigation/AppNavBar.jsx";
+// redux features import
+import { useDispatch, useSelector } from "react-redux";
+import { setLoading, setUser } from "../../redux/slices/userAuthSlice.js";
 
 const Card = styled(MuiCard)(({ theme }) => ({
   display: "flex",
@@ -30,12 +30,12 @@ const Card = styled(MuiCard)(({ theme }) => ({
   boxShadow:
     "hsla(220, 30%, 5%, 0.05) 0px 5px 15px 0px, hsla(220, 25%, 10%, 0.05) 0px 15px 35px -5px",
   [theme.breakpoints.up("sm")]: {
-    width: "450px",
+    width: "450px"
   },
   ...theme.applyStyles("dark", {
     boxShadow:
-      "hsla(220, 30%, 5%, 0.5) 0px 5px 15px 0px, hsla(220, 25%, 10%, 0.08) 0px 15px 35px -5px",
-  }),
+      "hsla(220, 30%, 5%, 0.5) 0px 5px 15px 0px, hsla(220, 25%, 10%, 0.08) 0px 15px 35px -5px"
+  })
 }));
 
 const SignUpContainer = styled(Stack)(({ theme }) => ({
@@ -49,19 +49,19 @@ const SignUpContainer = styled(Stack)(({ theme }) => ({
   backgroundRepeat: "no-repeat",
   ...theme.applyStyles("dark", {
     backgroundImage:
-      "radial-gradient(at 50% 50%, hsla(210, 100%, 16%, 0.5), hsl(220, 30%, 5%))",
-  }),
+      "radial-gradient(at 50% 50%, hsla(210, 100%, 16%, 0.5), hsl(220, 30%, 5%))"
+  })
 }));
 
 export default function SignUp() {
   const [emailError, setEmailError] = useState({ state: false, message: "" });
   const [passwordError, setPasswordError] = useState({
     state: false,
-    message: "",
+    message: ""
   });
   const [phoneNoError, setPhoneNoError] = useState({
     state: false,
-    message: "",
+    message: ""
   });
   const [nameError, setNameError] = useState({ state: false, message: "" });
   const [inputData, setInputData] = useState({
@@ -69,10 +69,15 @@ export default function SignUp() {
     phoneNo: "",
     email: "",
     password: "",
-    role: "user",
+    role: "user"
   });
 
+  // react-redux features
+  const { loading, user } = useSelector((store) => store.auth);
+  const dispatch = useDispatch();
+
   const navigate = useNavigate();
+
   const handleChange = (event) => {
     setInputData({ ...inputData, [event.target.name]: event.target.value });
   };
@@ -88,7 +93,7 @@ export default function SignUp() {
     if (!email.value || !/\S+@\S+\.\S+/.test(email.value)) {
       setEmailError({
         state: true,
-        message: "Please enter a valid email address.",
+        message: "Please enter a valid email address."
       });
       isValid = false;
     } else {
@@ -98,7 +103,7 @@ export default function SignUp() {
     if (!password.value || password.value.length < 8) {
       setPasswordError({
         state: true,
-        message: "Password must be at least 8 characters long.",
+        message: "Password must be at least 8 characters long."
       });
       isValid = false;
     } else {
@@ -116,7 +121,7 @@ export default function SignUp() {
     if (!phoneNo.value || isNotValidNumber || phoneNo.value.length < 10) {
       setPhoneNoError({
         state: true,
-        message: "Valid Phone Number is required.",
+        message: "Valid Phone Number is required."
       });
       isValid = false;
     } else {
@@ -129,32 +134,35 @@ export default function SignUp() {
   const handleSubmit = async (event) => {
     try {
       event.preventDefault();
+      dispatch(setLoading(true));
       let userData = {
         fullname: inputData.fullname,
         phoneNo: inputData.phoneNo,
         email: inputData.email,
         password: inputData.password,
-        role: inputData.role,
+        role: inputData.role
       };
       const response = await axios.post(
         `${USER_API_END_POINT}/register`,
         userData,
         {
           headers: {
-            "Content-Type": "application/json",
+            "Content-Type": "application/json"
           },
-          withCredentials: true,
+          withCredentials: true
         }
       );
       const isValidEntry = validateInputs();
-      while (response.data.success && isValidEntry) {
+      if (response.data.success && isValidEntry) {
+        dispatch(setUser(response.data.user));
         navigate("/login");
-        break;
       }
     } catch (err) {
       console.log(err);
+    } finally {
+      dispatch(setLoading(false));
     }
-  };
+  }
 
   return (
     <>
@@ -165,7 +173,7 @@ export default function SignUp() {
           sx={{
             justifyContent: "center",
             height: "90dvh",
-            p: 1,
+            p: 1
           }}
         >
           <Card variant="outlined">
@@ -182,7 +190,7 @@ export default function SignUp() {
                 backgroundClip: "text",
                 backgroundImage:
                   "linear-gradient(to right,blue 5%,#1976D2 45%, blue 80%)",
-                textAlign: "center",
+                textAlign: "center"
               }}
             >
               Sign up
@@ -196,7 +204,7 @@ export default function SignUp() {
                   display: "flex",
                   flexDirection: "column",
                   width: "100%",
-                  gap: "0.75rem",
+                  gap: "0.75rem"
                 }}
               >
                 <FormControl className="auth-form-field">
@@ -304,4 +312,4 @@ export default function SignUp() {
       </SignUpContainer>
     </>
   );
-}
+};

@@ -7,8 +7,13 @@ import {
   TableHead,
   TableRow
 } from "@mui/material";
+import useGetAppliedJobs from "../customHooks/useGetAppliedJobs";
+import { useSelector } from "react-redux";
 
 const AppliedJobs = () => {
+  useGetAppliedJobs();
+  const { allAppliedJobs } = useSelector((store) => store.job);
+
   return (
     <>
       <header>
@@ -16,42 +21,38 @@ const AppliedJobs = () => {
       </header>
       <main>
         <h3 align="center">Applied Jobs</h3>
-        <Table>
-          <TableHead>
-            <TableRow>
-              <TableCell>Date</TableCell>
-              <TableCell>Job Role</TableCell>
-              <TableCell>Company</TableCell>
-              <TableCell className="text-right">Status</TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            <TableRow>
-              <TableCell>CreatedAt: 07/24</TableCell>
-              <TableCell>Jr. Frontend Developer</TableCell>
-              <TableCell>Google</TableCell>
-              <TableCell className="text-right">Passed</TableCell>
-            </TableRow>
-            <TableRow>
-              <TableCell>CreatedAt: 05/24</TableCell>
-              <TableCell>Jr. Frontend Developer</TableCell>
-              <TableCell>Microsoft</TableCell>
-              <TableCell className="text-right">Pending</TableCell>
-            </TableRow>
-            <TableRow>
-              <TableCell>CreatedAt: 05/24</TableCell>
-              <TableCell>UI/UX Designer</TableCell>
-              <TableCell>Oracle</TableCell>
-              <TableCell className="text-right">Rejected</TableCell>
-            </TableRow>
-            <TableRow>
-              <TableCell>CreatedAt: 04/24</TableCell>
-              <TableCell>Jr. Full-Stack Developer</TableCell>
-              <TableCell>Tesla</TableCell>
-              <TableCell className="text-right">Rejected</TableCell>
-            </TableRow>
-          </TableBody>
-        </Table>
+        <div id="applied-jobs-table">
+          <Table
+            sx={{
+              margin: "0 auto",
+              fontFamily: "Poppins,Verdana,Arial,sans-serif",
+              fontSize: "2.5rem"
+            }}
+          >
+            <TableHead>
+              <TableRow>
+                <TableCell><b>Date of Application</b></TableCell>
+                <TableCell><b>Job Position</b></TableCell>
+                <TableCell><b>Company</b></TableCell>
+                <TableCell align="center"><b>Application Status</b></TableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {allAppliedJobs.map((appliedJob) => {
+                return (
+                  <TableRow key={appliedJob.id}>
+                    <TableCell>{appliedJob?.createdAt}</TableCell>
+                    <TableCell>{appliedJob?.job?.title}</TableCell>
+                    <TableCell>{appliedJob?.job?.company?.name}</TableCell>
+                    <TableCell align="center">
+                      <span>{appliedJob?.status}</span>
+                    </TableCell>
+                  </TableRow>
+                );
+              })}
+            </TableBody>
+          </Table>
+        </div>
 
         {/* Pagination */}
         {/* Filter options */}
