@@ -40,11 +40,11 @@ const UserNav = () => {
               fontWeight: "800"
             }}
           >
-            Dashboard
+            Job Portal
           </Typography>
           <Stack direction="row" spacing={0.5}>
             <NavLink to="/dashboard">
-              <NavButton variant="text">Profile</NavButton>
+              <NavButton variant="text">Dashboard</NavButton>
             </NavLink>
             <NavLink to="/browse-jobs">
               <NavButton variant="text">Browse Jobs</NavButton>

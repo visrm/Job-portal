@@ -67,7 +67,7 @@ export const logIn = async (req, res) => {
         message: "Account doesn't exist with the entered role.",
         success: false
       });
-      
+
     const tokenData = {
       userId: user._id
     };
@@ -166,12 +166,12 @@ export const getUsers = async (req, res) => {
     // To fetch user data based on id query parameter.
     const userId = req.query.id;
 
-    if (userId){
+    if (userId) {
       const userByIdQuery = await User.findById(userId);
-      return res.status(200).json(userByIdQuery);
-    } 
+      return res.status(200).json({ userByIdQuery, success: true });
+    }
 
-    return res.status(200).json(users);
+    return res.status(200).json({ users, success: true });
   } catch (error) {
     console.log(error);
     res.status(500).json({ message: "Error fetching users" });
@@ -185,7 +185,7 @@ export const getUserById = async (req, res) => {
     if (!user)
       res.status(404).json({ message: "User doesn't exist.", success: false });
 
-    return res.status(200).json(user);
+    return res.status(200).json({ user, success: true });
   } catch (error) {
     console.log(error);
     res.status(500).json({ message: "Internal server error.", success: false });

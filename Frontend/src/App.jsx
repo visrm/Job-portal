@@ -1,7 +1,7 @@
 import { Navigate, Route, Routes } from "react-router-dom";
 import "./App.css";
-import LogIn from "./components/LoginHandle/LogIn";
-import SignUp from "./components/LoginHandle/SignUp";
+import LogIn from "./components/authHandle/LogIn";
+import SignUp from "./components/authHandle/SignUp";
 import HomePage from "./components/HomePage";
 import BrowseJobs from "./components/userModule/BrowseJobs";
 import AppliedJobs from "./components/userModule/AppliedJobs";
@@ -10,7 +10,7 @@ import AdminProfile from "./components/adminModule/AdminProfile";
 import ManageJobs from "./components/adminModule/ManageJobs";
 import Profile from "./components/userModule/Profile";
 import Dashboard from "./components/userModule/Dashboard";
-import Viewuser from "./components/adminModule/Viewuser";
+import ViewApplicants from "./components/adminModule/ViewApplicants";
 
 export default function App() {
   return (
@@ -33,11 +33,9 @@ export default function App() {
         {/* Admin module */}
         <Route path="admin">
           <Route path="dashboard" element={<AdminDashboard />} />
-          <Route path="profile/:id">
-            <Route path=":id" element={<AdminProfile />} />
-          </Route>
+          <Route path="profile" element={<AdminProfile />} />
           <Route path="manage-jobs" element={<ManageJobs />} />
-          <Route path="viewuser" element={<Viewuser/>}/>
+          <Route path="jobs/:id/applicants" element={<ViewApplicants/>}/>
         </Route>
        
         

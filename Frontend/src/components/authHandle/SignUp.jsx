@@ -13,7 +13,7 @@ import { Link, useNavigate } from "react-router-dom";
 import MuiCard from "@mui/material/Card";
 import { styled } from "@mui/material/styles";
 import { USER_API_END_POINT } from "../../utils/constants.js";
-import AppNavBar from "../Navigation/AppNavBar.jsx";
+import AppNavBar from "../AppNavBar";
 // redux features import
 import { useDispatch, useSelector } from "react-redux";
 import { setLoading, setUser } from "../../redux/slices/userAuthSlice.js";
@@ -255,6 +255,7 @@ export default function SignUp() {
                     id="email"
                     placeholder="yourname@email.com"
                     name="email"
+                    autoComplete="email"
                     value={inputData.email}
                     variant="outlined"
                     onChange={handleChange}

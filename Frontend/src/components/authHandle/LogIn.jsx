@@ -15,7 +15,7 @@ import { Link, useNavigate } from "react-router-dom";
 import MuiCard from "@mui/material/Card";
 import { styled } from "@mui/material/styles";
 import { USER_API_END_POINT } from "../../utils/constants.js";
-import AppNavBar from "../Navigation/AppNavBar";
+import AppNavBar from "../AppNavBar";
 // redux feature imports
 import { useDispatch, useSelector } from "react-redux";
 import { setLoading, setUser } from "../../redux/slices/userAuthSlice.js";
@@ -195,6 +195,7 @@ const LogIn = () => {
                 onChange={handleChange}
                 placeholder="yourname@email.com"
                 autoFocus
+                autoComplete="email"
                 required
                 fullWidth
                 variant="outlined"

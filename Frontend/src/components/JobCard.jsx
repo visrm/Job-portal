@@ -6,6 +6,8 @@ import {
   Typography
 } from "@mui/material";
 import { useState, useEffect } from "react";
+import axios from "axios";
+import { APPLICATION_API_END_POINT } from "../utils/constants.js";
 
 export default function JobCard({ job }) {
   const [jobData, setJobData] = useState({
@@ -16,19 +18,47 @@ export default function JobCard({ job }) {
     type: "Full-time",
     title: "Jr. Software developer",
     location: "Kozhikode, Kerala",
-    timestamp: "1 Day ago"
+    timestamp: "1 Day ago",
+    requirements: []
   });
+
+  const handleApplyButton = async () => {
+    try {
+      const jobId = job?._id;
+      const response = await axios.get(
+        `${APPLICATION_API_END_POINT}/apply/${jobId}`,
+        {
+          withCredentials: true
+        }
+      );
+      if (response.data.success) {
+        alert(response.data.message);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const timestampFn = (mongoCreatedAt) => {
+    // Takes mongodb 'createdAt' timestamps
+    const createdAt = new Date(mongoCreatedAt);
+    // In-built JS Date() constructor
+    const currentTime = new Date();
+    const timeDifference = currentTime - createdAt;
+    return Math.floor(timeDifference / (1000 * 24 * 60 * 60));
+  };
 
   useEffect(() => {
     setJobData({
       salary: {
         lowerlimit: job?.salary,
-        upperlimit: 10000
+        upperlimit: 320000
       },
       type: job?.jobType,
       title: job?.title,
       location: job?.location,
-      timestamp: job?.createdAt
+      timestamp: job?.createdAt,
+      requirements: job?.requirements
     });
   }, []);
 
@@ -71,6 +101,9 @@ export default function JobCard({ job }) {
           <Typography variant="subtitle2">{jobData.type}</Typography>
         </div>
         <Typography variant="h5">{jobData.title}</Typography>
+        <Typography variant="body2">
+          Requirements: {jobData.requirements.toString()}
+        </Typography>
 
         <div
           className="jobcard-footer"
@@ -83,11 +116,23 @@ export default function JobCard({ job }) {
           }}
         >
           <Typography variant="subtitle2">{jobData.location}</Typography>
-          <Typography variant="subtitle2">{jobData.timestamp}</Typography>
+          <Typography variant="subtitle2">
+            {timestampFn(jobData.timestamp) === 0
+              ? "Today"
+              : `${timestampFn(jobData.timestamp)} days ago`}
+          </Typography>
         </div>
       </CardContent>
       <CardActions>
-        <Button size="small">apply</Button>
+        <Button
+          variant="outlined"
+          size="small"
+          onClick={() => {
+            handleApplyButton();
+          }}
+        >
+          apply
+        </Button>
       </CardActions>
     </Card>
   );
