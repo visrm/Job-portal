@@ -13,8 +13,9 @@ import storage from "redux-persist/lib/storage";
 // Slice imports
 import authSlice from "./slices/userAuthSlice.js";
 import jobSlice from "./slices/jobSlice.js";
-import companySlice from "./slices/companySlice";
-import applicationSlice from "./slices/applicationSlice";
+import companySlice from "./slices/companySlice.js";
+import applicationSlice from "./slices/applicationSlice.js";
+
 
 const persistConfig = {
   key: "root",

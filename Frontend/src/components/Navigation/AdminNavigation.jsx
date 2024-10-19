@@ -49,6 +49,8 @@ const AdminNavigation = () => {
             <Link to="/admin/manage-jobs">
               <NavButton variant="text">Manage Jobs</NavButton>
             </Link>
+            <Link to="viewuser">
+            <NavButton variant="text">Viewuser</NavButton></Link>
             <Link to="/">
               <NavButton variant="text">LogOut</NavButton>
             </Link>
