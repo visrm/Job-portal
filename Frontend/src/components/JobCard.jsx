@@ -1,28 +1,43 @@
 import {
-  Box,
   Button,
   Card,
   CardActions,
   CardContent,
-  Typography,
+  Typography
 } from "@mui/material";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
-export default function JobCard() {
-  const [salary, setSalary] = useState({
-    upperlimit: 8000,
-    lowerlimit: 3000,
+export default function JobCard({ job }) {
+  const [jobData, setJobData] = useState({
+    salary: {
+      lowerlimit: 8000,
+      upperlimit: 10000
+    },
+    type: "Full-time",
+    title: "Jr. Software developer",
+    location: "Kozhikode, Kerala",
+    timestamp: "1 Day ago"
   });
-  const [jobtype, setJobtype] = useState("fulltime");
-  const [jobtitle, setJobtitle] = useState("Jr. Software developer");
-  const [location, setLocation] = useState("Kozhikode, Kerala");
-  const [timestamp, setTimestap] = useState("1Day ago");
+
+  useEffect(() => {
+    setJobData({
+      salary: {
+        lowerlimit: job?.salary,
+        upperlimit: 10000
+      },
+      type: job?.jobType,
+      title: job?.title,
+      location: job?.location,
+      timestamp: job?.createdAt
+    });
+  }, []);
 
   return (
     <Card
       sx={{
-        minWidth: 240,
+        minWidth: 320,
         position: "relative",
+        padding: "0.25rem 0.75rem"
       }}
     >
       <CardContent
@@ -31,7 +46,7 @@ export default function JobCard() {
           display: "flex",
           justifyContent: "space-between",
           flexDirection: "column",
-          flexWrap: "nowrap",
+          flexWrap: "nowrap"
         }}
       >
         <div
@@ -40,30 +55,35 @@ export default function JobCard() {
             display: "flex",
             flexDirection: "row",
             flexWrap: "nowrap",
-            justifyContent: "space-between",
+            justifyContent: "space-between"
           }}
         >
           <Typography
             gutterBottom
             sx={{ color: "text.secondary", fontSize: 14 }}
           >
-            {"₹" + salary.lowerlimit + " - " + "₹" + salary.upperlimit}
+            {"₹" +
+              jobData.salary.lowerlimit +
+              " - " +
+              "₹" +
+              jobData.salary.upperlimit}
           </Typography>
-          <Typography variant="subtitle2">{jobtype}</Typography>
+          <Typography variant="subtitle2">{jobData.type}</Typography>
         </div>
-        <Typography variant="h5">{jobtitle}</Typography>
+        <Typography variant="h5">{jobData.title}</Typography>
 
         <div
           className="jobcard-footer"
           style={{
             display: "flex",
+            marginBlockStart: "0.75rem",
             flexDirection: "row",
             flexWrap: "nowrap",
-            justifyContent: "space-between",
+            justifyContent: "space-between"
           }}
         >
-          <Typography variant="subtitle2">{location}</Typography>
-          <Typography variant="subtitle2">{timestamp}</Typography>
+          <Typography variant="subtitle2">{jobData.location}</Typography>
+          <Typography variant="subtitle2">{jobData.timestamp}</Typography>
         </div>
       </CardContent>
       <CardActions>
