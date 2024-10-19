@@ -10,6 +10,7 @@ import AdminProfile from "./components/adminModule/AdminProfile";
 import ManageJobs from "./components/adminModule/ManageJobs";
 import Profile from "./components/userModule/Profile";
 import Dashboard from "./components/userModule/Dashboard";
+import Viewuser from "./components/adminModule/Viewuser";
 
 export default function App() {
   return (
@@ -36,7 +37,10 @@ export default function App() {
             <Route path=":id" element={<AdminProfile />} />
           </Route>
           <Route path="manage-jobs" element={<ManageJobs />} />
+          <Route path="viewuser" element={<Viewuser/>}/>
         </Route>
+       
+        
       </Routes>
     </>
   );
