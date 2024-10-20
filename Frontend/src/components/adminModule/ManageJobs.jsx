@@ -3,13 +3,14 @@ import AdminNavigation from "./AdminNavigation";
 import {
   Button,
   FormControl,
-  FormControlLabel,
-  Radio,
-  RadioGroup,
+  MenuItem,
+  Select,
   TextField
 } from "@mui/material";
 import axios from "axios";
-import { JOB_API_END_POINT } from "../../utils/constants";
+import { JOB_API_END_POINT } from "../../utils/constants.js";
+import { useDispatch } from "react-redux";
+import { setAllJobs } from "../../redux/slices/jobSlice.js";
 
 const ManageJobs = () => {
   const [input, setInput] = useState({
@@ -18,36 +19,38 @@ const ManageJobs = () => {
     requirements: "",
     salary: "",
     location: "",
-    type: "",
-    vacancy: "",
+    jobType: "Full-time",
+    vacancy: 0,
     companyId: ""
   });
-  async function handlePostSubmit(e) {
+
+  const dispatch = useDispatch();
+
+  const handlePostSubmit = async (e) => {
     try {
-      e.preventDefaults();
-      const jobData = {
-        title: input.title,
-        description: input.description,
-        requirements: input.requirements,
-        salary: input.salary,
-        location: input.location,
-        jobType: input.type,
-        vacancy: input.vacancy,
-        companyId: input.companyId
-      };
-      const res = await axios.post(`${JOB_API_END_POINT}/post`, jobData, {
+      e.preventDefault();
+      const res = await axios.post(`${JOB_API_END_POINT}/post`, input, {
         headers: {
           "Content-Type": "application/json"
         },
         withCredentials: true
       });
+      if (res.data.success) {
+        // console.log(res.data);
+        dispatch(setAllJobs(res.data.job));
+      }
     } catch (error) {
       console.log(error);
     }
-  }
+  };
 
   const handleChange = (e) => {
-    setInput(...input, { [e.target.name]: e.target.value });
+    setInput({ ...input, [e.target.name]: e.target.value });
+    // console.log(input);
+  };
+
+  const jobTypeSelectHandler = (e) => {
+    setInput({ ...input, companyId: e.target.value });
   };
 
   return (
@@ -56,7 +59,7 @@ const ManageJobs = () => {
         <AdminNavigation />
       </header>
       <main>
-        <h3 align="center">Add Job</h3>
+        <h1 align="center" style={{color:"blue"}}>Enter Job Details</h1>
         <form
           method="POST"
           onSubmit={handlePostSubmit}
@@ -64,13 +67,12 @@ const ManageJobs = () => {
             display: "flex",
             flexDirection: "column",
             flexWrap: "nowrap",
-            gap: "0.25rem",
+            gap: "0.5rem",
             width: "100%",
             maxWidth: "33%",
             margin: "0.25rem auto"
           }}
         >
-          <div style={{}}></div>
           <FormControl className="form-field">
             <label htmlFor="title">Job Title</label>
             <TextField
@@ -114,18 +116,37 @@ const ManageJobs = () => {
             />
           </FormControl>
           <FormControl className="form-field">
-            <label htmlFor="location">Location</label>
+            <label htmlFor="companyId">Company ID</label>
             <TextField
               required
               onChange={handleChange}
-              value={input.location}
-              name="location"
-              id="location"
-              placeholder="Vadakara, Kerala, India"
+              value={input.companyId}
+              name="companyId"
+              id="companyId"
+              placeholder="670ff24a410ba116c9afc768"
               variant="outlined"
               size="small"
               fullWidth
             />
+          </FormControl>
+
+          <FormControl className="form-field">
+            <label htmlFor="job-type" className="form-label">
+              Job Type:
+            </label>
+            <Select
+              required
+              sx={{ display: "block", width: "100%" }}
+              size="small"
+              id="job-type"
+              name="jobType"
+              onChange={jobTypeSelectHandler}
+              value={input.jobType.length > 0 ? input.jobType : ""}
+            >
+              <MenuItem value="Part-time">Part-time</MenuItem>
+              <MenuItem value="Full-time">Full-time</MenuItem>
+              <MenuItem value="Internship">Internship</MenuItem>
+            </Select>
           </FormControl>
           <FormControl className="form-field">
             <label htmlFor="salary">Salary</label>
@@ -141,36 +162,33 @@ const ManageJobs = () => {
               fullWidth
             />
           </FormControl>
-
           <FormControl className="form-field">
-            <label htmlFor="job-type" className="form-label">
-              Job Type:
-            </label>
-            <RadioGroup
-              row
+            <label htmlFor="location">Location</label>
+            <TextField
               required
-              defaultValue="Full-time"
               onChange={handleChange}
-              name="jobType"
-              value={input.type}
-              id="job-type"
-            >
-              <FormControlLabel
-                value="Full-time"
-                control={<Radio checked={input.type === "Full-time"} />}
-                label="Full-time"
-              />
-              <FormControlLabel
-                value="Part-time"
-                control={<Radio checked={input.type === "Part-time"} />}
-                label="Part-time"
-              />
-              <FormControlLabel
-                value="Internship"
-                control={<Radio checked={input.type === "Internship"} />}
-                label="Internship"
-              />
-            </RadioGroup>
+              value={input.location}
+              name="location"
+              id="location"
+              placeholder="Vadakara, Kerala, India"
+              variant="outlined"
+              size="small"
+              fullWidth
+            />
+          </FormControl>
+          <FormControl className="form-field">
+            <label htmlFor="vacancy">Vacancy</label>
+            <TextField
+              required
+              onChange={handleChange}
+              value={input.vacancy}
+              name="vacancy"
+              id="vacancy"
+              placeholder="45"
+              variant="outlined"
+              size="small"
+              fullWidth
+            />
           </FormControl>
           <FormControl className="form-field">
             <Button variant="contained" type="submit">
