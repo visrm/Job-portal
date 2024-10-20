@@ -84,7 +84,11 @@ export default function JobCard({ job }) {
             justifyContent: "space-between"
           }}
         >
-          <Typography variant="subtitle2">{job?.location}</Typography>
+          <div>
+            <Typography variant="subtitle2"><b>{job?.company?.name}</b></Typography>
+            <Typography variant="subtitle2">{job?.location}</Typography>
+          </div>
+
           <Typography variant="subtitle2">
             {timestampFn(job?.createdAt) === 0
               ? "Today"
