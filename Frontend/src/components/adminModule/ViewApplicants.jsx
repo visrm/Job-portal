@@ -34,7 +34,10 @@ const ViewApplicants = () => {
         <AdminNavigation />
       </header>
       <main>
-        <ApplicantsTable />
+        <div>
+          <h3 align="center">Applications</h3>
+          <ApplicantsTable />
+        </div>
       </main>
     </div>
   );

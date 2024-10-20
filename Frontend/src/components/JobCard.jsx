@@ -5,23 +5,10 @@ import {
   CardContent,
   Typography
 } from "@mui/material";
-import { useState, useEffect } from "react";
 import axios from "axios";
 import { APPLICATION_API_END_POINT } from "../utils/constants.js";
 
 export default function JobCard({ job }) {
-  const [jobData, setJobData] = useState({
-    salary: {
-      lowerlimit: 8000,
-      upperlimit: 10000
-    },
-    type: "Full-time",
-    title: "Jr. Software developer",
-    location: "Kozhikode, Kerala",
-    timestamp: "1 Day ago",
-    requirements: []
-  });
-
   const handleApplyButton = async () => {
     try {
       const jobId = job?._id;
@@ -47,20 +34,6 @@ export default function JobCard({ job }) {
     const timeDifference = currentTime - createdAt;
     return Math.floor(timeDifference / (1000 * 24 * 60 * 60));
   };
-
-  useEffect(() => {
-    setJobData({
-      salary: {
-        lowerlimit: job?.salary,
-        upperlimit: 320000
-      },
-      type: job?.jobType,
-      title: job?.title,
-      location: job?.location,
-      timestamp: job?.createdAt,
-      requirements: job?.requirements
-    });
-  }, []);
 
   return (
     <Card
@@ -92,17 +65,13 @@ export default function JobCard({ job }) {
             gutterBottom
             sx={{ color: "text.secondary", fontSize: 14 }}
           >
-            {"₹" +
-              jobData.salary.lowerlimit +
-              " - " +
-              "₹" +
-              jobData.salary.upperlimit}
+            {`₹ ${job?.salary} - 4,00,000`}
           </Typography>
-          <Typography variant="subtitle2">{jobData.type}</Typography>
+          <Typography variant="subtitle2">{job?.jobType}</Typography>
         </div>
-        <Typography variant="h5">{jobData.title}</Typography>
+        <Typography variant="h5">{job?.title}</Typography>
         <Typography variant="body2">
-          Requirements: {jobData.requirements.toString()}
+          Requirements: {job?.requirements.toString()}
         </Typography>
 
         <div
@@ -115,11 +84,11 @@ export default function JobCard({ job }) {
             justifyContent: "space-between"
           }}
         >
-          <Typography variant="subtitle2">{jobData.location}</Typography>
+          <Typography variant="subtitle2">{job?.location}</Typography>
           <Typography variant="subtitle2">
-            {timestampFn(jobData.timestamp) === 0
+            {timestampFn(job?.createdAt) === 0
               ? "Today"
-              : `${timestampFn(jobData.timestamp)} days ago`}
+              : `${timestampFn(job?.createdAt)} days ago`}
           </Typography>
         </div>
       </CardContent>

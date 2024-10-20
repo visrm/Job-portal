@@ -1,7 +1,18 @@
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableRow
+} from "@mui/material";
 import { useSelector } from "react-redux";
+import useGetAppliedJobs from "./customHooks/useGetAppliedJobs";
 
 const AppliedJobsTable = () => {
-  const { allAppliedJobs } = useSelector((store) => store.jobs);
+  useGetAppliedJobs();
+
+  const { allAppliedJobs } = useSelector((store) => store.job);
+  let i = 0;
   return (
     <>
       <Table
@@ -22,7 +33,7 @@ const AppliedJobsTable = () => {
               <b>S.No</b>
             </TableCell>
             <TableCell>
-              <b>Date of Application</b>
+              <b>Apply Date</b>
             </TableCell>
             <TableCell>
               <b>Job Position</b>
@@ -42,16 +53,15 @@ const AppliedJobsTable = () => {
           {allAppliedJobs.map((appliedJob) => {
             i++;
             return (
-              <TableRow key={appliedJob.id}>
+              <TableRow key={i}>
                 <TableCell>{i}</TableCell>
-                <TableCell>{appliedJob?.createdAt}</TableCell>
+                <TableCell>{appliedJob?.createdAt.split("T")[0]}</TableCell>
                 <TableCell>{appliedJob?.job?.title}</TableCell>
                 <TableCell>{appliedJob?.job?.company?.name}</TableCell>
                 <TableCell>{appliedJob?.job?.location}</TableCell>
                 <TableCell align="center">
                   <span>{appliedJob?.status}</span>
                 </TableCell>
-                {console.log(appliedJob)}
               </TableRow>
             );
           })}

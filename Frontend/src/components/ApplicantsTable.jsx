@@ -55,7 +55,9 @@ const ApplicantsTable = () => {
               <TableCell>
                 <b>Contact</b>
               </TableCell>
-              <TableCell align="center"> </TableCell>
+              <TableCell align="center">
+                <b>Action</b>
+              </TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -70,8 +72,7 @@ const ApplicantsTable = () => {
                     <TableCell>{application?.applicant?.fullname}</TableCell>
                     <TableCell>{application?.applicant?.email}</TableCell>
                     <TableCell>{application?.applicant?.phoneNo}</TableCell>
-                    <TableCell align="right">
-                      <Stack spacing={1} sx={{ maxWidth: "20ch" }}>
+                    <TableCell align="center"> 
                         {shortlistStatus.map((status, index) => {
                           return (
                             <Button
@@ -79,13 +80,13 @@ const ApplicantsTable = () => {
                               onClick={() =>
                                 handleStatus(status, application?._id)
                               }
+                              sx={{margin: "0.25rem 0.25rem"}}
                               key={index}
                             >
                               <span>{status}</span>
                             </Button>
                           );
                         })}
-                      </Stack>
                     </TableCell>
                   </TableRow>
                 );

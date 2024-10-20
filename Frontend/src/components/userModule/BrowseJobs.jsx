@@ -37,23 +37,16 @@ const BrowseJobs = () => {
           }}
         >
           <Grid2 container spacing={2}>
-              {
-                // maps each job from `allJobs` array.
-                allJobs.map((job) => {
-                  if (!job) {
-                    return (
-                      <div>
-                        <h2 align="center">No Jobs available.</h2>
-                      </div>
-                    );
-                  }
-                  return (
-                    <Grid2 key={job.id}>
-                      <JobCard job={job} />
-                    </Grid2>
-                  );
-                })
-              }
+            {
+              // maps each job from `allJobs` array.
+              allJobs.map((job) => {
+                return (
+                  <Grid2 size={6} key={job.id}>
+                    <JobCard job={job} />
+                  </Grid2>
+                );
+              })
+            }
           </Grid2>
         </Box>
       </main>
