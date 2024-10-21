@@ -179,10 +179,10 @@ export const updateJob = async (req, res) => {
 export const removeJob = async (req, res) => {
   try {
     const adminId = await req.id;
-    await Job.findByIdAndDelete(req.params.id, adminId).then((docs) => {
+    await Job.findByIdAndDelete(req.params.id, adminId).then((job) => {
       res.status(200).json({
-        message: `deleted : ${docs}`,
-        docs,
+        message: `Deleted Job Successfully`,
+        job,
         success: true
       });
     });

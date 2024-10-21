@@ -35,7 +35,12 @@ const ViewApplicants = () => {
       </header>
       <main>
         <div>
-          <h3 align="center">Applications</h3>
+          <h2
+            align="center"
+            style={{ fontFamily: "serif", textTransform: "uppercase" }}
+          >
+            Applications
+          </h2>
           <ApplicantsTable />
         </div>
       </main>

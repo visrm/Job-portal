@@ -60,7 +60,15 @@ const AppliedJobsTable = () => {
                 <TableCell>{appliedJob?.job?.company?.name}</TableCell>
                 <TableCell>{appliedJob?.job?.location}</TableCell>
                 <TableCell align="center">
-                  <span>{appliedJob?.status}</span>
+                  <span
+                    style={{
+                      backgroundColor: "rgba(0,0,255,0.2)",
+                      padding: "0.5rem 0.75rem",
+                      borderRadius: "0.25rem"
+                    }}
+                  >
+                    <strong>{appliedJob?.status}</strong>
+                  </span>
                 </TableCell>
               </TableRow>
             );

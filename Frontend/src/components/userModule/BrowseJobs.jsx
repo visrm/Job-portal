@@ -29,51 +29,50 @@ const BrowseJobs = () => {
   }, [allJobs, searchQuery]);
 
   return (
-    <div>
-      <UserNav />
-      <div
-        style={{
-          display: "block",
-          margin: "0.75rem auto 0 auto",
-          height: "100%"
-        }}
-      >
-        <div style={{ display: "flex", width: "100%", gap: "1.25rem" }}>
-          <div style={{ display: "block", maxWidth: "33%" }}>
-            <JobFilterCard />
-          </div>
-          <div style={{ display: "block", maxWidth: "100%" }}>
-            {filterJobs.length <= 0 ? (
-              <span>Job not found</span>
-            ) : (
-              <div
-                style={{
-                  display: "flex",
-                  flexDirection: "row",
-                  flexWrap: "wrap",
-                  paddingBottom: "1.25rem",
-                  height: "100%"
-                }}
-              >
-                <div
-                  style={{
-                    display: "grid",
-                    direction: "row",
-                    gap: "1rem"
-                  }}
-                >
-                  {filterJobs.length > 0 && filterJobs.map((job) => (
-                    <div key={job?._id}>
-                      <JobCard job={job} />
-                    </div>
-                  ))}
+    <>
+      <header>
+        <UserNav />
+      </header>
+      <main>
+        <section
+          style={{
+            display: "block",
+            margin: "0 auto",
+            height: "100%"
+          }}
+        >
+          <div style={{ display: "flex", width: "100%", gap: "1.25rem" }}>
+            <div style={{ display: "block", width: "35%" }}>
+              <JobFilterCard />
+            </div>
+            <div
+              style={{
+                display: "grid",
+                gridTemplateColumns: "repeat(2, 1fr)",
+                width: "100%",
+                height: "100%",
+                maxWidth: "100%"
+              }}
+            >
+              {filterJobs.length <= 0 ? (
+                <span>Job not found</span>
+              ) : (
+                <div id="jobs-jobcard-grid">
+                  {filterJobs.length > 0 &&
+                    filterJobs.map((job) => {
+                      return (
+                        <div key={job?._id}>
+                          <JobCard job={job} />
+                        </div>
+                      );
+                    })}
                 </div>
-              </div>
-            )}
+              )}
+            </div>
           </div>
-        </div>
-      </div>
-    </div>
+        </section>
+      </main>
+    </>
   );
 };
 

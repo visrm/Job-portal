@@ -1,13 +1,10 @@
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { USER_API_END_POINT } from "../../utils/constants";
-import EditIcon from "@mui/icons-material/Edit";
-import { Button } from "@mui/material";
 
 const API = `${USER_API_END_POINT}/users`;
 
 const Profile = () => {
-  const [open, setOpen] = useState(false);
   const [userProfileDetails, setUserProfileDetails] = useState({
     fullname: "John Doe",
     email: "JohnDoe01@email.com",
@@ -47,19 +44,6 @@ const Profile = () => {
           >
             Profile
           </h2>
-          <div id="edit-button">
-            <Button
-              sx={{
-                display: "block",
-                height: "2.75rem"
-              }}
-              onClick={() => {
-                setOpen(true);
-              }}
-            >
-              <EditIcon />
-            </Button>
-          </div>
         </div>
         <div id="profile-content">
           <article

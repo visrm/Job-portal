@@ -21,8 +21,10 @@ header {
 
 main {
   display: block;
+  padding-block: 1rem;
   height: 100%;
   width: 100%;
+  max-width: 100%;
   min-height: 100vh;
   background-color: #ecf5ff;
 }
@@ -105,8 +107,8 @@ hgroup {
   background-color: rgba(0, 0, 0, 0.075);
   -webkit-backdrop-filter: blur(8px);
   backdrop-filter: blur(8px);
-  width: 70%;
-  transform: translateY(2rem);
+  height: 100%;
+  width: 66%;
   border-radius: 1rem;
 }
 
@@ -172,7 +174,7 @@ hgroup {
 /* User Module CSS */
 /* Applied-Jobs CSS */
 
-div#applied-jobs-table {
+.applied-jobs-table {
   display: grid;
   background-color: rgba(0, 0, 0, 0.05);
   backdrop-filter: blur(4px);
@@ -182,6 +184,23 @@ div#applied-jobs-table {
   height: 100%;
   width: 100%;
   max-width: 90%;
+  min-width: fit-content;
+}
+
+/* Browse Jobs CSS */
+#jobs-jobcard-grid > div {
+  display: grid;
+  grid-row: repeat(6, 1fr);
+  grid-template-areas: "card1" "card2";
+  padding: 1rem;
+}
+
+#jobs-jobcard-grid > div:nth-child(even) {
+  grid-area: card1;
+}
+
+#jobs-jobcard-grid > div:nth-child(odd) {
+  grid-area: card2;
 }
 
 /* Admin Module CSS */

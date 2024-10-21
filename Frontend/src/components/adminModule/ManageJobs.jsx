@@ -40,19 +40,24 @@ const ManageJobs = () => {
         <Navigation />
       </header>
       <main>
-        <section>
-          <JobAddForm />
-        </section>
-
-        <section style={{ margin: "1rem auto" }}>
-          <h2 align="center" style={{ padding: "1rem" }}>
-            JobTable
+        <section
+          style={{
+            display: "block",
+            height: "100%",
+            marginBlockEnd: "2rem",
+            marginInline: "auto",
+            padding: "1rem 1.5rem"
+          }}
+        >
+          <h2 align="center" style={{ fontFamily: "serif", padding: "1rem" }}>
+            MANAGE JOB LISTS
           </h2>
           {allAdminJobs.length >= 0 && (
             <Table
               sx={{
-                margin: "0 auto",
+                height: "100%",
                 width: "100%",
+                maxWidth: "100%",
                 fontFamily: "Poppins,Verdana,Arial,sans-serif",
                 fontSize: "2.5rem"
               }}
@@ -78,6 +83,9 @@ const ManageJobs = () => {
                   <TableCell>
                     <b>Location</b>
                   </TableCell>
+                  <TableCell>
+                    <b>Manage Options</b>
+                  </TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
@@ -97,11 +105,15 @@ const ManageJobs = () => {
                           <JobUpdateModal job={allAdminJob} />
                           <Button
                             onClick={() => {
-                              if(window.confirm("Are you sure you want to delete this job?")){
+                              if (
+                                window.confirm(
+                                  "Are you sure you want to delete this job?"
+                                )
+                              ) {
                                 let jobId = allAdminJob?._id;
-                                return handleDelete(jobId);
+                                handleDelete(jobId);
+                                if (handleDelete) window.location.reload();
                               }
-                              
                             }}
                           >
                             Delete
@@ -114,6 +126,16 @@ const ManageJobs = () => {
               </TableBody>
             </Table>
           )}
+        </section>
+        <section
+          style={{
+            display: "block",
+            height: "100%",
+            marginBlockEnd: "2rem",
+            marginInline: "auto"
+          }}
+        >
+          <JobAddForm />
         </section>
       </main>
     </>
