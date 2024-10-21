@@ -62,7 +62,7 @@ const BrowseJobs = () => {
                     gap: "1rem"
                   }}
                 >
-                  {filterJobs.map((job) => (
+                  {filterJobs.length > 0 && filterJobs.map((job) => (
                     <div key={job?._id}>
                       <JobCard job={job} />
                     </div>

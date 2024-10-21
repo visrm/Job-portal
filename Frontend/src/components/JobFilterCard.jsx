@@ -36,6 +36,7 @@ const JobFilterCard = () => {
     dispatch(setSearchedQuery(selectedValue));
   }, [selectedValue]);
 
+ var i = 0; // for usage as unique key
   return (
     <div
       style={{
@@ -47,37 +48,39 @@ const JobFilterCard = () => {
       <h2>Filter Jobs</h2>
       <hr />
       <RadioGroup value={selectedValue} onChange={changeHandler}>
-        {jobFilterData.map((data, index) => (
-          <div>
-            <h3>{data.filterType}</h3>
-            {data.array.map((item, idx) => {
-              const itemId = `id${index}-${idx}`;
-              return (
-                <FormControl
-                  style={{
-                    display: "flex",
-                    flexDirection: "row",
-                    alignItems: "center",
-                    rowGap: "0.5rem",
-                    marginBlock: "0.5rem",
-                    width: "100%",
-                    minWidth: "fit-content",
-                    border: "0.1rem solid lightgrey",
-                    backgroundColor: "rgba(0,0,0, 0.1)",
-                    borderRadius: "0.5rem"
-                  }}
-                >
-                  <FormControlLabel
-                    value={item}
-                    id={itemId}
-                    control={<Radio />}
-                    label={item}
-                  />
-                </FormControl>
-              );
-            })}
-          </div>
-        ))}
+        {jobFilterData.length > 0 && jobFilterData.map((data, index) => {
+          return (
+            <div key={data.id}>
+              <h3>{data.filterType}</h3>
+              {data.array.map((item, idx) => {
+                const itemId = `id${index}-${idx}`;
+                return (
+                  <FormControl
+                    style={{
+                      display: "flex",
+                      flexDirection: "row",
+                      alignItems: "center",
+                      rowGap: "0.5rem",
+                      marginBlock: "0.5rem",
+                      width: "100%",
+                      minWidth: "fit-content",
+                      border: "0.1rem solid lightgrey",
+                      backgroundColor: "rgba(0,0,0, 0.1)",
+                      borderRadius: "0.5rem"
+                    }}
+                  >
+                    <FormControlLabel
+                      value={item}
+                      id={itemId}
+                      control={<Radio />}
+                      label={item}
+                    />
+                  </FormControl>
+                );
+              })}
+            </div>
+          );
+        })}
       </RadioGroup>
     </div>
   );

@@ -12,7 +12,7 @@ const AppliedJobsTable = () => {
   useGetAppliedJobs();
 
   const { allAppliedJobs } = useSelector((store) => store.job);
-  let i = 0;
+  var i = 0; // for usage as unique key & Serial Number
   return (
     <>
       <Table

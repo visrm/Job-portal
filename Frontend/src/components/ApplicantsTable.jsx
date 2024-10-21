@@ -1,6 +1,4 @@
 import {
-  Button,
-  Stack,
   Table,
   TableBody,
   TableCell,
@@ -36,7 +34,7 @@ const ApplicantsTable = () => {
     }
   };
 
-  let i = 0;
+  var i = 0; // for usage as unique key & Serial Number
   return (
     <>
       <TableContainer sx={{ margin: "0.75rem auto" }}>
@@ -56,7 +54,7 @@ const ApplicantsTable = () => {
                 <b>Contact</b>
               </TableCell>
               <TableCell align="center">
-                <b>Action</b>
+                <b>Status Update</b>
               </TableCell>
             </TableRow>
           </TableHead>
@@ -72,21 +70,30 @@ const ApplicantsTable = () => {
                     <TableCell>{application?.applicant?.fullname}</TableCell>
                     <TableCell>{application?.applicant?.email}</TableCell>
                     <TableCell>{application?.applicant?.phoneNo}</TableCell>
-                    <TableCell align="center"> 
-                        {shortlistStatus.map((status, index) => {
-                          return (
-                            <Button
-                              variant="outlined"
-                              onClick={() =>
-                                handleStatus(status, application?._id)
-                              }
-                              sx={{margin: "0.25rem 0.25rem"}}
-                              key={index}
-                            >
-                              <span>{status}</span>
-                            </Button>
-                          );
-                        })}
+                    <TableCell align="center">
+                      {shortlistStatus.map((status, index) => {
+                        return (
+                          <button
+                            variant="outlined"
+                            onClick={() =>
+                              handleStatus(status, application?._id)
+                            }
+                            style={{
+                              display: "block",
+                              width: "100%",
+                              textAlign: "center",
+                              padding: "0.5rem",
+                              margin: "0.5rem",
+                              backgroundColor: "rgba(0,0,250, 0.15)",
+                              border: "0.1rem",
+                              borderRadius: "0.5rem"
+                            }}
+                            key={index}
+                          >
+                            <span>{status}</span>
+                          </button>
+                        );
+                      })}
                     </TableCell>
                   </TableRow>
                 );

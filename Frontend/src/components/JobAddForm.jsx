@@ -11,7 +11,7 @@ import { JOB_API_END_POINT } from "../utils/constants.js";
 import { useDispatch } from "react-redux";
 import { setAllJobs } from "../redux/slices/jobSlice.js";
 
-const JobDetailsForm = () => {
+const JobsAddForm = () => {
   const [input, setInput] = useState({
     title: "",
     description: "",
@@ -113,7 +113,7 @@ const JobDetailsForm = () => {
           />
         </FormControl>
         <FormControl className="form-field">
-          <label htmlFor="companyId">Company ID</label>
+          <label htmlFor="companyId">Company Ref ID</label>
           <TextField
             required
             onChange={handleChange}
@@ -201,4 +201,4 @@ const JobDetailsForm = () => {
   );
 };
 
-export default JobDetailsForm;
+export default JobsAddForm;

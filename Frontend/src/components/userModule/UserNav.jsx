@@ -6,7 +6,11 @@ import {
   Button,
   styled
 } from "@mui/material";
-import { NavLink } from "react-router-dom";
+import axios from "axios";
+import { NavLink, useNavigate } from "react-router-dom";
+import { USER_API_END_POINT } from "../../utils/constants.js";
+import { useDispatch } from "react-redux";
+import { setLoading, setUser } from "../../redux/slices/userAuthSlice.js";
 
 const NavButton = styled(Button)({
   padding: "0.5rem 1rem",
@@ -25,7 +29,26 @@ const NavButton = styled(Button)({
 });
 
 const UserNav = () => {
-  
+  const navigate = useNavigate();
+  const dispatch = useDispatch()
+  const logOutHandle = async () => {
+    try {
+      dispatch(setLoading(true))
+      const response = await axios.get(`${USER_API_END_POINT}/logout`, {
+        withCredentials: true
+      });
+      if (response.data.success) {
+        dispatch(setUser(null));
+        navigate("/");
+      } else {
+        console.log("failed to logOut.");
+      }
+    } catch (error) {
+      console.log(error);
+    }finally {
+      dispatch(setLoading(false))
+    }
+  };
   return (
     <>
       <AppBar position="sticky" sx={{ padding: "0 0.5rem" }}>
@@ -52,6 +75,7 @@ const UserNav = () => {
             <NavLink to="/applied-jobs">
               <NavButton variant="text">Applied Jobs</NavButton>
             </NavLink>
+            <NavButton onClick={logOutHandle}>Log Out</NavButton>
           </Stack>
         </Toolbar>
       </AppBar>

@@ -3,8 +3,8 @@ import {
   getUserById,
   getUsers,
   logIn,
-  register,
-  updateProfile
+  logOut,
+  register
 } from "../controllers/user.controller.js";
 import isAuthenticated from "../middlewares/authentication.js";
 
@@ -12,7 +12,7 @@ const router = express.Router();
 
 router.route("/register").post(register);
 router.route("/login").post(logIn);
-router.route("/profile/update").post(isAuthenticated, updateProfile);
+router.route("/logout").get(logOut)
 router.route("/users").get(isAuthenticated, getUsers);
 router.route("/users/:id").get(isAuthenticated, getUserById);
 

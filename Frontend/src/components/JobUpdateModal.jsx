@@ -57,7 +57,7 @@ export default function JobUpdateModal({ job }) {
         }
       );
       if (res.data.success) {
-        console.log(res.data);
+        // console.log(res.data);
         dispatch(setAllAdminJobs(res.data.job));
       }
     } catch (error) {

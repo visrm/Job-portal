@@ -6,7 +6,7 @@ import { APPLICATION_API_END_POINT } from "../../utils/constants.js";
 import { setAllApplicants } from "../../redux/slices/applicationSlice.js";
 import { useParams } from "react-router-dom";
 import { useEffect } from "react";
-import ApplicantsTable from "../applicantsTable.jsx";
+import ApplicantsTable from "../ApplicantsTable.jsx";
 
 const ViewApplicants = () => {
   const dispatch = useDispatch();

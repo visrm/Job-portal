@@ -11,10 +11,9 @@ import {
 import { useSelector } from "react-redux";
 import useGetallAdminJobs from "../customHooks/useGetallAdminJobs";
 import JobUpdateModal from "../JobUpdateModal";
-import JobDetailsForm from "../JobDetailsForm";
+import JobAddForm from "../JobAddForm";
 import { JOB_API_END_POINT } from "../../utils/constants";
 import axios from "axios";
-import { useEffect } from "react";
 import { setAllAdminJobs } from "../../redux/slices/jobSlice";
 
 const ManageJobs = () => {
@@ -25,8 +24,11 @@ const ManageJobs = () => {
 
   const handleDelete = async (itemId) => {
     try {
-      await axios.delete(`${JOB_API_END_POINT}/remove/${itemId}`);
-      setAllAdminJobs(allAdminJobs.filter((item) => item._id !== itemId));
+      const res = await axios.delete(`${JOB_API_END_POINT}/remove/${itemId}`);
+      if (res.data.success) {
+        console.log(res.data);
+        setAllAdminJobs(allAdminJobs.filter((item) => item._id !== itemId));
+      }
     } catch (error) {
       console.error("Error deleting item:", error);
     }
@@ -39,7 +41,7 @@ const ManageJobs = () => {
       </header>
       <main>
         <section>
-          <JobDetailsForm />
+          <JobAddForm />
         </section>
 
         <section style={{ margin: "1rem auto" }}>
@@ -93,7 +95,15 @@ const ManageJobs = () => {
                       <TableCell>
                         <Stack spacing={1} direction="row">
                           <JobUpdateModal job={allAdminJob} />
-                          <Button onClick={handleDelete(allAdminJob?._id)}>
+                          <Button
+                            onClick={() => {
+                              if(window.confirm("Are you sure you want to delete this job?")){
+                                let jobId = allAdminJob?._id;
+                                return handleDelete(jobId);
+                              }
+                              
+                            }}
+                          >
                             Delete
                           </Button>
                         </Stack>

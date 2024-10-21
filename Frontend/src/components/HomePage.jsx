@@ -1,6 +1,5 @@
 import React from "react";
 import AppNavBar from "./AppNavBar";
-import Jobs from "./Jobs";
 
 const HomePage = () => {
   return (
@@ -19,7 +18,6 @@ const HomePage = () => {
           </h3>
         </hgroup>
       </main>
-      <Jobs/>
     </>
   );
 };

@@ -9,6 +9,6 @@ router.route("/get").get(isAuthenticated, getAllJobs);
 router.route("/getadminjobs").get(isAuthenticated, getAdminJobs);
 router.route("/get/:id").get(isAuthenticated, getJobById);
 router.route("/update/:id").put(isAuthenticated, updateJob);
-router.route("/remove/:id").delete(isAuthenticated, removeJob);
+router.route("/remove/:id").delete(removeJob);
 
 export default router;

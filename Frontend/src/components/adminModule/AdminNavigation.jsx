@@ -5,9 +5,13 @@ import {
   Typography,
   Stack,
   Button,
-  styled,
+  styled
 } from "@mui/material";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { USER_API_END_POINT } from "../../utils/constants.js";
+import axios from "axios";
+import { useDispatch } from "react-redux";
+import { setLoading, setUser } from "../../redux/slices/userAuthSlice.js";
 
 const NavButton = styled(Button)({
   padding: "0.5rem 1rem",
@@ -18,14 +22,35 @@ const NavButton = styled(Button)({
   borderRadius: "1.5rem",
   boxShadow: "none",
   "&:hover": {
-    backgroundColor: "#0069d9",
+    backgroundColor: "#0069d9"
   },
   "&:active": {
-    backgroundColor: "#0062cc",
-  },
+    backgroundColor: "#0062cc"
+  }
 });
 
 const AdminNavigation = () => {
+  const navigate = useNavigate();
+  const dispatch = useDispatch()
+  const logOutHandle = async () => {
+    try {
+      dispatch(setLoading(true))
+      const response = await axios.get(`${USER_API_END_POINT}/logout`, {
+        withCredentials: true
+      });
+      if (response.data.success) {
+        dispatch(setUser(null));
+        navigate("/");
+      } else {
+        console.log("failed to logOut.");
+      }
+    } catch (error) {
+      console.log(error);
+    }finally {
+      dispatch(setLoading(false))
+    }
+  };
+
   return (
     <>
       <AppBar position="sticky" sx={{ padding: "0 0.5rem" }}>
@@ -37,7 +62,7 @@ const AdminNavigation = () => {
               mr: "auto",
               fontFamily: "Poppins, sans-serif",
               fontKerning: "normal",
-              fontWeight: "800",
+              fontWeight: "800"
             }}
           >
             Admin Dashboard
@@ -46,14 +71,15 @@ const AdminNavigation = () => {
             <Link to="/admin/dashboard">
               <NavButton variant="text">Dashboard</NavButton>
             </Link>
-            <Link to="/admin/manage-jobs">
+            <Link to="/manage-jobs">
               <NavButton variant="text">Manage Jobs</NavButton>
             </Link>
-            <Link to="/admin/jobs/671410800994ebbf2b7ef2d3/applicants">
-            <NavButton variant="text">View Applicants</NavButton></Link>
-            <Link to="/">
-              <NavButton variant="text">LogOut</NavButton>
+            <Link to="/jobs/671410800994ebbf2b7ef2d3/applicants">
+              <NavButton variant="text">View Applicants</NavButton>
             </Link>
+            <NavButton onClick={logOutHandle} variant="text">
+              LogOut
+            </NavButton>
           </Stack>
         </Toolbar>
       </AppBar>
