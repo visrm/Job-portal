@@ -97,7 +97,15 @@ const Dashboard = () => {
                   );
                 })
               ) : (
-                <span>No Jobs Applied to</span>
+                <span
+                  style={{
+                    fontSize: "0.8rem",
+                    color: "blue",
+                    width: "100%"
+                  }}
+                >
+                  No Jobs Applied to
+                </span>
               )}
             </TableBody>
           </Table>

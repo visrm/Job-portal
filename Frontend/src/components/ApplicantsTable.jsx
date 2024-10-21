@@ -63,7 +63,7 @@ const ApplicantsTable = () => {
               applicants?.applications.map((application) => {
                 i++;
                 return (
-                  <TableRow key={application.id}>
+                  <TableRow key={application._id}>
                     <TableCell align="center">
                       <b>{i}.</b>
                     </TableCell>
@@ -74,6 +74,7 @@ const ApplicantsTable = () => {
                       {shortlistStatus.map((status, index) => {
                         return (
                           <button
+                            key={application?._id}
                             variant="outlined"
                             onClick={() =>
                               handleStatus(status, application?._id)
@@ -88,7 +89,6 @@ const ApplicantsTable = () => {
                               border: "0.1rem",
                               borderRadius: "0.5rem"
                             }}
-                            key={index}
                           >
                             <span>{status}</span>
                           </button>
