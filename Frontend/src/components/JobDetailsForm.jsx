@@ -1,22 +1,22 @@
 import { useState } from "react";
 import {
-    Button,
-    FormControl,
-    MenuItem,
-    Select,
-    TextField
-  } from "@mui/material";
-  import axios from "axios";
-  import { JOB_API_END_POINT } from "../utils/constants.js";
-  import { useDispatch } from "react-redux";
-  import { setAllJobs } from "../redux/slices/jobSlice.js";
+  Button,
+  FormControl,
+  MenuItem,
+  Select,
+  TextField
+} from "@mui/material";
+import axios from "axios";
+import { JOB_API_END_POINT } from "../utils/constants.js";
+import { useDispatch } from "react-redux";
+import { setAllJobs } from "../redux/slices/jobSlice.js";
 
 const JobDetailsForm = () => {
   const [input, setInput] = useState({
     title: "",
     description: "",
     requirements: "",
-    salary: "",
+    salary: 0,
     location: "",
     jobType: "Full-time",
     vacancy: 0,
@@ -35,7 +35,7 @@ const JobDetailsForm = () => {
         withCredentials: true
       });
       if (res.data.success) {
-        // console.log(res.data);
+        console.log(res.data);
         dispatch(setAllJobs(res.data.job));
       }
     } catch (error) {
@@ -49,14 +49,14 @@ const JobDetailsForm = () => {
   };
 
   const jobTypeSelectHandler = (e) => {
-    setInput({ ...input, companyId: e.target.value });
+    setInput({ ...input, [e.target.name]: e.target.value });
   };
 
   return (
     <>
-      <h1 align="center" style={{ color: "blue" }}>
-        Enter Job Details
-      </h1>
+      <h2 align="center" style={{ color: "blue", paddingBottom: "0.2rem" }}>
+        ADD JOB
+      </h2>
       <form
         method="POST"
         onSubmit={handlePostSubmit}
@@ -138,7 +138,11 @@ const JobDetailsForm = () => {
             id="job-type"
             name="jobType"
             onChange={jobTypeSelectHandler}
-            value={input.jobType.length > 0 ? input.jobType : ""}
+            value={
+              input.jobType.length > 0
+                ? input.jobType
+                : input.jobType === "Full-time"
+            }
           >
             <MenuItem value="Part-time">Part-time</MenuItem>
             <MenuItem value="Full-time">Full-time</MenuItem>

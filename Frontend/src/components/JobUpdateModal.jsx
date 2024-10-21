@@ -1,7 +1,6 @@
 import { useState } from "react";
 import {
   Box,
-  Typography,
   Button,
   Modal,
   FormControl,
@@ -11,8 +10,8 @@ import {
 } from "@mui/material";
 import axios from "axios";
 import { JOB_API_END_POINT } from "../utils/constants.js";
+import { setAllAdminJobs } from "../redux/slices/jobSlice.js";
 import { useDispatch } from "react-redux";
-import { setAllJobs } from "../redux/slices/jobSlice.js";
 
 const style = {
   position: "absolute",
@@ -21,40 +20,45 @@ const style = {
   transform: "translate(-50%, -50%)",
   width: 400,
   bgcolor: "background.paper",
-  border: "2px solid #000",
+  border: "1px solid #000",
   boxShadow: 24,
   p: 4
 };
 
-export default function JobDetailsModal() {
+export default function JobUpdateModal({ job }) {
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
+
   const [input, setInput] = useState({
-    title: "",
-    description: "",
-    requirements: "",
-    salary: "",
-    location: "",
-    jobType: "Full-time",
-    vacancy: 0,
-    companyId: ""
+    title: job?.title || "",
+    description: job?.description || "",
+    requirements: job?.requirements || "",
+    salary: job?.salary || "",
+    location: job?.location || "",
+    jobType: job?.jobType || "Full-time",
+    vacancy: job?.vacancy || 0
   });
 
   const dispatch = useDispatch();
 
-  const handlePostSubmit = async (e) => {
+  const handlePutSubmit = async (e) => {
+    e.preventDefault();
     try {
-      e.preventDefault();
-      const res = await axios.post(`${JOB_API_END_POINT}/post`, input, {
-        headers: {
-          "Content-Type": "application/json"
-        },
-        withCredentials: true
-      });
+      let jobId = job?._id;
+      const res = await axios.put(
+        `${JOB_API_END_POINT}/update/${jobId}`,
+        input,
+        {
+          headers: {
+            "Content-Type": "application/json"
+          },
+          withCredentials: true
+        }
+      );
       if (res.data.success) {
-        // console.log(res.data);
-        dispatch(setAllJobs(res.data.job));
+        console.log(res.data);
+        dispatch(setAllAdminJobs(res.data.job));
       }
     } catch (error) {
       console.log(error);
@@ -67,12 +71,12 @@ export default function JobDetailsModal() {
   };
 
   const jobTypeSelectHandler = (e) => {
-    setInput({ ...input, companyId: e.target.value });
+    setInput({ ...input, [e.target.name]: e.target.value });
   };
 
   return (
-    <div>
-      <Button onClick={handleOpen}>Open modal</Button>
+    <>
+      <Button onClick={handleOpen}>Update</Button>
       <Modal
         open={open}
         onClose={handleClose}
@@ -80,22 +84,20 @@ export default function JobDetailsModal() {
         aria-describedby="modal-modal-description"
       >
         <Box sx={style}>
-          <Typography id="modal-modal-title" variant="h6" component="h2">
+          <h2 align="center" style={{ color: "blue" }}>
             Enter Job Details
-          </Typography>
-
+          </h2>
           <form
-            method="POST"
-            id="modal-modal-description"
-            onSubmit={handlePostSubmit}
+            method="PUT"
+            onSubmit={handlePutSubmit}
             style={{
               display: "flex",
               flexDirection: "column",
               flexWrap: "nowrap",
-              gap: "0.5rem",
+              gap: "0.25rem",
               width: "100%",
-              maxWidth: "33%",
-              margin: "0.25rem auto"
+              maxWidth: "90%",
+              margin: "auto auto"
             }}
           >
             <FormControl className="form-field">
@@ -141,20 +143,6 @@ export default function JobDetailsModal() {
               />
             </FormControl>
             <FormControl className="form-field">
-              <label htmlFor="companyId">Company ID</label>
-              <TextField
-                required
-                onChange={handleChange}
-                value={input.companyId}
-                name="companyId"
-                id="companyId"
-                placeholder="670ff24a410ba116c9afc768"
-                variant="outlined"
-                size="small"
-                fullWidth
-              />
-            </FormControl>
-            <FormControl className="form-field">
               <label htmlFor="job-type" className="form-label">
                 Job Type:
               </label>
@@ -165,7 +153,11 @@ export default function JobDetailsModal() {
                 id="job-type"
                 name="jobType"
                 onChange={jobTypeSelectHandler}
-                value={input.jobType.length > 0 ? input.jobType : ""}
+                value={
+                  input.jobType.length > 0
+                    ? input.jobType
+                    : input.jobType === "Full-time"
+                }
               >
                 <MenuItem value="Part-time">Part-time</MenuItem>
                 <MenuItem value="Full-time">Full-time</MenuItem>
@@ -215,13 +207,17 @@ export default function JobDetailsModal() {
               />
             </FormControl>
             <FormControl className="form-field">
-              <Button variant="contained" type="submit">
+              <Button
+                variant="contained"
+                type="submit"
+                sx={{ marginTop: "0.1rem" }}
+              >
                 Submit
               </Button>
             </FormControl>
           </form>
         </Box>
       </Modal>
-    </div>
+    </>
   );
 }

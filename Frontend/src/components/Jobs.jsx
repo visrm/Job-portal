@@ -37,7 +37,7 @@ const Jobs = () => {
               // maps each job from `allJobs` array.
               allJobs.map((job) => {
                 return (
-                  <Grid2 size={5} key={job.id}>
+                  <Grid2 size={5} key={job?._id}>
                     <JobCard job={job} />
                   </Grid2>
                 );

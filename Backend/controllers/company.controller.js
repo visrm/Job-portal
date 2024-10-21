@@ -30,6 +30,7 @@ export const registerCompany = async (req, res) => {
     console.log(error);
   }
 };
+
 export const getCompany = async (req, res) => {
   try {
     // To get companies registered by user
@@ -49,6 +50,7 @@ export const getCompany = async (req, res) => {
     console.log(error);
   }
 };
+
 // get company by id
 export const getCompanyById = async (req, res) => {
   try {
@@ -62,30 +64,6 @@ export const getCompanyById = async (req, res) => {
     }
     return res.status(200).json({
       company,
-      success: true
-    });
-  } catch (error) {
-    console.log(error);
-  }
-};
-export const updateCompany = async (req, res) => {
-  try {
-    const { name, description, website, location } = req.body;
-
-    const updateData = { name, description, website, location, logo };
-
-    const company = await Company.findByIdAndUpdate(req.params.id, updateData, {
-      new: true
-    });
-
-    if (!company) {
-      return res.status(404).json({
-        message: "Company not found.",
-        success: false
-      });
-    }
-    return res.status(200).json({
-      message: "Company information updated.",
       success: true
     });
   } catch (error) {
