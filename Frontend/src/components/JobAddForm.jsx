@@ -8,7 +8,7 @@ import {
 } from "@mui/material";
 import axios from "axios";
 import { JOB_API_END_POINT } from "../utils/constants.js";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { setAllJobs } from "../redux/slices/jobSlice.js";
 
 const JobsAddForm = () => {
@@ -22,7 +22,7 @@ const JobsAddForm = () => {
     vacancy: 0,
     companyId: ""
   });
-
+  const { companies } = useSelector((store) => store.company);
   const dispatch = useDispatch();
 
   const handlePostSubmit = async (e) => {
@@ -46,6 +46,13 @@ const JobsAddForm = () => {
   const handleChange = (e) => {
     setInput({ ...input, [e.target.name]: e.target.value });
     // console.log(input);
+  };
+
+  const selectChangeHandler = (e) => {
+    const selectedCompany = companies.find(
+      (company) => company?.name.toLowerCase() === e.target.value.toString()
+    );
+    setInput({ ...input, companyId: selectedCompany._id });
   };
 
   const jobTypeSelectHandler = (e) => {
@@ -87,7 +94,7 @@ const JobsAddForm = () => {
           }}
         >
           <FormControl className="form-field">
-            <label htmlFor="title">Job Title</label>
+            <label htmlFor="title">Job Title:</label>
             <TextField
               required
               onChange={handleChange}
@@ -101,7 +108,7 @@ const JobsAddForm = () => {
             />
           </FormControl>
           <FormControl className="form-field">
-            <label htmlFor="description">Description</label>
+            <label htmlFor="description">Description:</label>
             <TextField
               required
               onChange={handleChange}
@@ -115,7 +122,7 @@ const JobsAddForm = () => {
             />
           </FormControl>
           <FormControl className="form-field">
-            <label htmlFor="requirements">Requirements</label>
+            <label htmlFor="requirements">Requirements:</label>
             <TextField
               required
               onChange={handleChange}
@@ -128,6 +135,8 @@ const JobsAddForm = () => {
               fullWidth
             />
           </FormControl>
+          {/* Old Company add field
+          
           <FormControl className="form-field">
             <label htmlFor="companyId">Company Ref ID</label>
             <TextField
@@ -141,7 +150,43 @@ const JobsAddForm = () => {
               size="small"
               fullWidth
             />
-          </FormControl>
+          </FormControl> 
+          
+          */}
+
+          {companies.length > 0 && (
+            <FormControl className="form-field">
+              <label htmlFor="companyref" className="form-label">
+                Company:
+              </label>
+              <Select
+                required
+                onChange={selectChangeHandler}
+                fullWidth
+                id="comapnyref"
+                name="companyId"
+                size="small"
+                defaultValue=""
+              >
+                <MenuItem value="">None</MenuItem>
+                {companies.length > 0 &&
+                  companies.map((company) => {
+                    return (
+                      <MenuItem
+                        key={company?._id}
+                        value={
+                          company?.name.length > 0
+                            ? company?.name.toLowerCase()
+                            : company?.name.toLowerCase() === `google`
+                        }
+                      >
+                        {company?.name}
+                      </MenuItem>
+                    );
+                  })}
+              </Select>
+            </FormControl>
+          )}
 
           <FormControl className="form-field">
             <label htmlFor="job-type" className="form-label">
@@ -166,7 +211,7 @@ const JobsAddForm = () => {
             </Select>
           </FormControl>
           <FormControl className="form-field">
-            <label htmlFor="salary">Salary</label>
+            <label htmlFor="salary">Salary:</label>
             <TextField
               required
               onChange={handleChange}
@@ -180,14 +225,14 @@ const JobsAddForm = () => {
             />
           </FormControl>
           <FormControl className="form-field">
-            <label htmlFor="location">Location</label>
+            <label htmlFor="location">Location:</label>
             <TextField
               required
               onChange={handleChange}
               value={input.location}
               name="location"
               id="location"
-              placeholder="Vadakara, Kerala, India"
+              placeholder="Vadakara, Kerala"
               variant="outlined"
               size="small"
               fullWidth
@@ -208,12 +253,28 @@ const JobsAddForm = () => {
             />
           </FormControl>
           <FormControl className="form-field">
-            <Button variant="contained" type="submit" onClick={()=> {
-              window.location.reload()
-            }}>
+            <Button
+              variant="contained"
+              type="submit"
+              onClick={() => {
+                window.location.reload();
+              }}
+            >
               Submit
             </Button>
           </FormControl>
+          {companies.length === 0 && (
+            <p
+              style={{
+                color: "blue",
+                fontSize: "1rem",
+                fontWeight: "bold",
+                textAlign: "center"
+              }}
+            >
+              *Please register a company first, before posting a jobs
+            </p>
+          )}
         </form>
       </div>
     </>

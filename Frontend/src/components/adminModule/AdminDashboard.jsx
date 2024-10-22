@@ -1,5 +1,7 @@
 import React from "react";
-import AdminNavigation from "./AdminNavigation"
+import AdminNavigation from "./AdminNavigation";
+import Profile from "../userModule/Profile";
+import Jobs from "../Jobs";
 
 const AdminDashboard = () => {
   return (
@@ -7,7 +9,9 @@ const AdminDashboard = () => {
       <header>
         <AdminNavigation />
       </header>
-      admin homepage
+      <main>
+        <Profile />
+      </main>
     </>
   );
 };

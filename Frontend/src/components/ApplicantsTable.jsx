@@ -74,7 +74,7 @@ const ApplicantsTable = () => {
                       {shortlistStatus.map((status, index) => {
                         return (
                           <button
-                            key={application?._id}
+                            key={application?._id - index}
                             variant="outlined"
                             onClick={() =>
                               handleStatus(status, application?._id)
