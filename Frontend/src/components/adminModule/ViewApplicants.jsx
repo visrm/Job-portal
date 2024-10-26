@@ -40,7 +40,7 @@ const ViewApplicants = () => {
             align="center"
             style={{ fontFamily: "serif", textTransform: "uppercase" }}
           >
-            Applications
+            Applications List
           </h2>
           <ApplicantsTable />
         </div>

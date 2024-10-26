@@ -3,7 +3,7 @@ import { useSelector } from "react-redux";
 import { USER_API_END_POINT } from "../../utils/constants";
 
 const API = `${USER_API_END_POINT}/users`;
-
+ 
 const Profile = ({ admin }) => {
   const [userProfileDetails, setUserProfileDetails] = useState({
     fullname: "John Doe",

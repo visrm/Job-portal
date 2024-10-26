@@ -7,7 +7,7 @@ import {
   Button,
   styled
 } from "@mui/material";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate} from "react-router-dom";
 import { USER_API_END_POINT } from "../../utils/constants.js";
 import axios from "axios";
 import { useDispatch } from "react-redux";
@@ -74,9 +74,11 @@ const AdminNavigation = () => {
             <Link to="/manage-jobs">
               <NavButton variant="text">Manage Jobs</NavButton>
             </Link>
-            <Link to="/jobs/671410800994ebbf2b7ef2d3/applicants">
-              <NavButton variant="text">View Applicants</NavButton>
-            </Link>
+              <NavButton variant="text" onClick={()=>{
+                var id = prompt("Enter jobID for application :")
+                if(id) navigate(`/jobs/${id}/applicants`)
+                else return
+              }}>View Applicants</NavButton>
             <NavButton onClick={logOutHandle} variant="text">
               LogOut
             </NavButton>

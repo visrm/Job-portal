@@ -1,15 +1,18 @@
 import UserNav from "./UserNav";
 import JobFilterCard from "../JobFilterCard";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import JobCard from "../JobCard";
 import { useEffect, useState } from "react";
 import useGetAllJobs from "../customHooks/useGetAllJobs";
+import { setSearchedQuery } from "../../redux/slices/jobSlice.js"
 
 const BrowseJobs = () => {
   // const jobsArray = [1, 2, 3, 4, 5, 6, 7, 8];
   useGetAllJobs();
   const { allJobs, searchQuery } = useSelector((store) => store.job);
   const [filterJobs, setFilterJobs] = useState(allJobs);
+
+  const dispatch = useDispatch()
 
   useEffect(() => {
     if (searchQuery) {
@@ -25,6 +28,7 @@ const BrowseJobs = () => {
       setFilterJobs(filteredJobs);
     } else {
       setFilterJobs(allJobs);
+      dispatch(setSearchedQuery(""));
     }
   }, [allJobs, searchQuery]);
 

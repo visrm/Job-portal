@@ -37,13 +37,12 @@ export default function JobUpdateModal({ job }) {
     salary: job?.salary || "",
     location: job?.location || "",
     jobType: job?.jobType || "Full-time",
-    vacancy: job?.vacancy || 0
+    vacancy: job?.vacancy || ""
   });
 
   const dispatch = useDispatch();
 
-  const handlePutSubmit = async (e) => {
-    e.preventDefault();
+  const handlePutSubmit = async () => {
     try {
       let jobId = job?._id;
       const res = await axios.put(
@@ -85,7 +84,7 @@ export default function JobUpdateModal({ job }) {
       >
         <Box sx={style}>
           <h2 align="center" style={{ color: "blue" }}>
-            Enter Job Details
+            Update Job Details
           </h2>
           <form
             method="PUT"

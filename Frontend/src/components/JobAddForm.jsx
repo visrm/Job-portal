@@ -4,7 +4,7 @@ import {
   FormControl,
   MenuItem,
   Select,
-  TextField
+  TextField,
 } from "@mui/material";
 import axios from "axios";
 import { JOB_API_END_POINT } from "../utils/constants.js";
@@ -16,11 +16,11 @@ const JobsAddForm = () => {
     title: "",
     description: "",
     requirements: "",
-    salary: 0,
+    salary: "",
     location: "",
     jobType: "Full-time",
-    vacancy: 0,
-    companyId: ""
+    vacancy: "",
+    companyId: "",
   });
   const { companies } = useSelector((store) => store.company);
   const dispatch = useDispatch();
@@ -30,9 +30,9 @@ const JobsAddForm = () => {
       e.preventDefault();
       const res = await axios.post(`${JOB_API_END_POINT}/post`, input, {
         headers: {
-          "Content-Type": "application/json"
-        },
-        withCredentials: true
+          "Content-Type": "application/json",
+        }, 
+        withCredentials: true,
       });
       if (res.data.success) {
         // console.log(res.data);
@@ -71,7 +71,7 @@ const JobsAddForm = () => {
           height: "100%",
           width: "100%",
           maxWidth: "50%",
-          minWidth: "fit-content"
+          minWidth: "fit-content",
         }}
       >
         <h2
@@ -90,7 +90,7 @@ const JobsAddForm = () => {
             gap: "0.5rem",
             width: "66%",
             maxWidth: "100%",
-            margin: "0.25rem auto"
+            margin: "0.25rem auto",
           }}
         >
           <FormControl className="form-field">
@@ -269,7 +269,7 @@ const JobsAddForm = () => {
                 color: "blue",
                 fontSize: "1rem",
                 fontWeight: "bold",
-                textAlign: "center"
+                textAlign: "center",
               }}
             >
               *Please register a company first, before posting a jobs

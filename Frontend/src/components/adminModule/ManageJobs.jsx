@@ -75,6 +75,9 @@ const ManageJobs = () => {
                     <b>Creation Date</b>
                   </TableCell>
                   <TableCell>
+                    <b>Job ID</b>
+                  </TableCell>
+                  <TableCell>
                     <b>Job Position</b>
                   </TableCell>
                   <TableCell>
@@ -97,6 +100,7 @@ const ManageJobs = () => {
                       <TableCell>
                         {allAdminJob?.createdAt.split("T")[0]}
                       </TableCell>
+                      <TableCell>{allAdminJob?._id}</TableCell>
                       <TableCell>{allAdminJob?.title}</TableCell>
                       <TableCell>{allAdminJob?.company?.name}</TableCell>
                       <TableCell>{allAdminJob?.location}</TableCell>

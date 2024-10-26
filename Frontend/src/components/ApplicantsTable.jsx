@@ -38,6 +38,12 @@ const ApplicantsTable = () => {
   return (
     <>
       <TableContainer sx={{ margin: "0.75rem auto" }}>
+      <h4 align="right" style={{
+        padding: "0.75rem 1.5rem",
+         fontFamily: "serif"
+         }}> 
+         Total applicant(s) : {applicants?.applications.length}
+         </h4>
         <Table sx={{ minWidth: 650 }} size="small" aria-label="a dense table">
           <TableHead>
             <TableRow>
