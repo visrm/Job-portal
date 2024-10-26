@@ -159,10 +159,11 @@ export default function SignUp() {
       }
     } catch (err) {
       console.log(err);
+      alert(err.response.data.message);
     } finally {
       dispatch(setLoading(false));
     }
-  }
+  };
 
   return (
     <>
@@ -313,4 +314,4 @@ export default function SignUp() {
       </SignUpContainer>
     </>
   );
-};
+}

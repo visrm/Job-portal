@@ -83,7 +83,7 @@ const Dashboard = () => {
                         {appliedJob?.job?.company?.name}
                       </TableCell>
                       <TableCell align="center">
-                        <span
+                        <div
                           style={{
                             backgroundColor: "rgba(0,0,255,0.2)",
                             padding: "0.5rem 0.75rem",
@@ -91,7 +91,7 @@ const Dashboard = () => {
                           }}
                         >
                           <strong>{appliedJob?.status}</strong>
-                        </span>
+                        </div>
                       </TableCell>
                     </TableRow>
                   );

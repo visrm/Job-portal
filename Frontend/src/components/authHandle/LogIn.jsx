@@ -76,7 +76,7 @@ const LogIn = () => {
   });
 
   // react-redux features
-  const { loading, user } = useSelector(store => store.auth);
+  const { loading, user } = useSelector((store) => store.auth);
   const dispatch = useDispatch();
 
   const navigate = useNavigate();
@@ -143,6 +143,7 @@ const LogIn = () => {
       }
     } catch (err) {
       console.log(err);
+      alert(err.response.data.message);
     } finally {
       dispatch(setLoading(false));
     }

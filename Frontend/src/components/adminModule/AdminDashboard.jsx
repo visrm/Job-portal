@@ -1,7 +1,6 @@
 import React from "react";
 import AdminNavigation from "./AdminNavigation";
 import Profile from "../userModule/Profile";
-import Jobs from "../Jobs";
 
 const AdminDashboard = () => {
   return (
@@ -10,7 +9,7 @@ const AdminDashboard = () => {
         <AdminNavigation />
       </header>
       <main>
-        <Profile />
+        <Profile admin={true} />
       </main>
     </>
   );

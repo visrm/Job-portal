@@ -50,7 +50,7 @@ const JobFilterCard = () => {
       <RadioGroup value={selectedValue} onChange={changeHandler}>
         {jobFilterData.length > 0 && jobFilterData.map((data, index) => {
           return (
-            <div key={data.id}>
+            <div key={index}>
               <h3>{data.filterType}</h3>
               {data.array.map((item, idx) => {
                 const itemId = `id${index}-${idx}`;

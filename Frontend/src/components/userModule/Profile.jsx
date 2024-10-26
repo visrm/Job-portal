@@ -4,13 +4,14 @@ import { USER_API_END_POINT } from "../../utils/constants";
 
 const API = `${USER_API_END_POINT}/users`;
 
-const Profile = () => {
+const Profile = ({ admin }) => {
   const [userProfileDetails, setUserProfileDetails] = useState({
     fullname: "John Doe",
     email: "JohnDoe01@email.com",
     phoneNo: 9000000090,
     bio: "about me..."
   });
+  const [isAdmin, setIsAdmin] = useState(false);
 
   const { user } = useSelector((store) => store.auth);
 
@@ -21,6 +22,7 @@ const Profile = () => {
       phoneNo: user?.phoneNo,
       bio: user?.profile?.bio
     });
+    setIsAdmin(admin);
   }, []);
 
   return (
@@ -68,10 +70,12 @@ const Profile = () => {
               {<span>{userProfileDetails.email}</span>}
             </div>
 
-            <div id="skills">
-              <h4 className="profile-details">Skill Set</h4>
-              <p className="skills-array">HTML/CSS, JavaScript, Python</p>
-            </div>
+            {!isAdmin && (
+              <div id="skills">
+                <h4 className="profile-details">Skill Set</h4>
+                <p className="skills-array">HTML/CSS, JavaScript, Python</p>
+              </div>
+            )}
           </article>
         </div>
       </section>
